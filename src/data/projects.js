@@ -22,15 +22,21 @@
  * mediaType: null
  * mediaUrl: null
  * (shows gray block)
+ *
+ * OPTIONAL LINK:
+ * link: 'https://example.com' or 'https://github.com/username/repo'
+ * (makes the description text clickable, opens in new tab)
+ * If omitted, description is just plain text
  */
 
 export const projects = [
   {
     id: 1,
-    description: "rand.om - a site to find random arena blocks",
+    description: "rand.om - a site to randomize are.na blocks",
     date: "December 2025",
-    mediaType: "iframe",
-    mediaUrl: "https://rand-om.vercel.app/",
+    mediaType: "gif",
+    mediaUrl: "src/images/ezgif-40cdf7474ab8756e.gif",
+    link: "https://rand-om.vercel.app/", // Optional: makes description clickable
   },
   {
     id: 2,
@@ -52,8 +58,9 @@ export const projects = [
     id: 4,
     description: "4",
     date: "4",
-    mediaType: null,
-    mediaUrl: null,
+    mediaType: "video",
+    mediaUrl:
+      "https://attachments.are.na/40980614/e1e3ce9f5d7d93fcc47bab6f2b8bac20.mp4?1762725115",
   },
   {
     id: 5,
@@ -62,12 +69,14 @@ export const projects = [
     mediaType: null,
     mediaUrl: null,
   },
+
   {
     id: 6,
     description: "6",
     date: "6",
-    mediaType: null,
-    mediaUrl: null,
+    mediaType: "video",
+    mediaUrl:
+      "https://attachments.are.na/40980614/e1e3ce9f5d7d93fcc47bab6f2b8bac20.mp4?1762725115",
   },
   {
     id: 7,

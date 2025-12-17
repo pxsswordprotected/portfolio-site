@@ -1,13 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, useReducedMotion } from 'framer-motion';
 import "./App.css";
 import { projects } from "./data/projects";
 
 function App() {
   const [expandedCell, setExpandedCell] = useState(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // ESC key to collapse expanded cell
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && expandedCell) {
+        setExpandedCell(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [expandedCell]);
 
   const getExpansionDirection = (index) => {
     const col = index % 3; // 0, 1, or 2 (left, middle, right)
     return col === 2 ? 'left' : 'right';
+  };
+
+  const getGridPositionStyle = (index, isExpanded) => {
+    if (!isExpanded) return {};
+
+    const col = index % 3; // 0, 1, or 2
+    const row = Math.floor(index / 3) + 1; // 1-indexed for CSS Grid
+
+    // Calculate explicit grid column start/end
+    let gridColumn;
+    if (col === 0) {
+      // Left column: expand right (columns 1-2)
+      gridColumn = '1 / 3';
+    } else if (col === 1) {
+      // Middle column: expand right (columns 2-3)
+      gridColumn = '2 / 4';
+    } else {
+      // Right column: expand left (columns 2-3)
+      gridColumn = '2 / 4';
+    }
+
+    // Calculate explicit grid row start/end (always current row + 2)
+    const gridRow = `${row} / ${row + 2}`;
+
+    return { gridColumn, gridRow };
   };
 
   const renderMedia = (project, index) => {
@@ -17,8 +56,17 @@ function App() {
 
     const handleClick = () => {
       if (project.mediaType !== "iframe") {
-        const direction = getExpansionDirection(index);
-        setExpandedCell({ id: project.id, direction });
+        // Check if this cell is already expanded
+        const isExpanded = expandedCell?.id === project.id;
+
+        if (isExpanded) {
+          // Collapse if already expanded
+          setExpandedCell(null);
+        } else {
+          // Expand if not expanded
+          const direction = getExpansionDirection(index);
+          setExpandedCell({ id: project.id, direction });
+        }
       }
     };
 
@@ -67,31 +115,37 @@ function App() {
       {projects.map((project, index) => {
         const isExpanded = expandedCell?.id === project.id;
         const expandClass = isExpanded ? `expanded expand-${expandedCell.direction}` : '';
+        const gridPositionStyle = getGridPositionStyle(index, isExpanded);
 
         return (
-          <div key={project.id} className={`grid-item ${expandClass}`}>
+          <motion.div
+            key={project.id}
+            className={`grid-item ${expandClass}`}
+            style={gridPositionStyle}
+            layout
+            transition={{
+              duration: shouldReduceMotion ? 0.01 : 0.3,
+              ease: shouldReduceMotion ? 'linear' : [0.16, 1, 0.3, 1]
+            }}
+          >
             {renderMedia(project, index)}
             <div className="text-content">
-              <div className="description">{project.description}</div>
+              <div className="description">
+                {project.link ? (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.description}
+                  </a>
+                ) : (
+                  project.description
+                )}
+              </div>
               <div className="date">{project.date}</div>
             </div>
-            {isExpanded && (
-              <button
-                className={`back-button back-button-${expandedCell.direction}`}
-                onClick={() => setExpandedCell(null)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="#000000"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M213.66,53.66,163.31,104H192a8,8,0,0,1,0,16H144a8,8,0,0,1-8-8V64a8,8,0,0,1,16,0V92.69l50.34-50.35a8,8,0,0,1,11.32,11.32ZM112,136H64a8,8,0,0,0,0,16H92.69L42.34,202.34a8,8,0,0,0,11.32,11.32L104,163.31V192a8,8,0,0,0,16,0V144A8,8,0,0,0,112,136Z"></path>
-                </svg>
-              </button>
-            )}
-          </div>
+          </motion.div>
         );
       })}
     </div>
