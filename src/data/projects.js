@@ -48,41 +48,31 @@ export const projects = [
   },
   {
     id: 3,
-    description: "3",
-    date: "3",
-    mediaType: "video",
-    mediaUrl:
-      "https://attachments.are.na/40980614/e1e3ce9f5d7d93fcc47bab6f2b8bac20.mp4?1762725115",
+    description: "Product design",
+    date: "October 2025",
+    mediaType: "image",
+    mediaUrl: "src/images/running_good_1.png",
   },
   {
     id: 4,
-    description: "4",
-    date: "4",
-    mediaType: "video",
-    mediaUrl:
-      "https://attachments.are.na/40980614/e1e3ce9f5d7d93fcc47bab6f2b8bac20.mp4?1762725115",
+    description: "Product design",
+    date: "August 2025",
+    mediaType: "image",
+    mediaUrl: "src/images/project_nexus.png",
   },
   {
     id: 5,
-    description: "5",
-    date: "5",
-    mediaType: null,
-    mediaUrl: null,
+    description: "Dropdown component",
+    date: "October 2025",
+    mediaType: "video",
+    mediaUrl: "src/videos/2025-12-17 18-32-57.mp4",
   },
 
   {
     id: 6,
     description: "6",
     date: "6",
-    mediaType: "video",
-    mediaUrl:
-      "https://attachments.are.na/40980614/e1e3ce9f5d7d93fcc47bab6f2b8bac20.mp4?1762725115",
-  },
-  {
-    id: 7,
-    description: "rand.om - a site to find random arena blocks",
-    date: "December 2025",
-    mediaType: "iframe",
-    mediaUrl: "https://rand-om.vercel.app/",
+    mediaType: null,
+    mediaUrl: null,
   },
 ];

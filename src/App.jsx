@@ -128,23 +128,21 @@ function App() {
               ease: shouldReduceMotion ? 'linear' : [0.16, 1, 0.3, 1]
             }}
           >
-            {renderMedia(project, index)}
-            <div className="text-content">
-              <div className="description">
-                {project.link ? (
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {project.description}
-                  </a>
-                ) : (
-                  project.description
-                )}
-              </div>
-              <div className="date">{project.date}</div>
+            <div className="description">
+              {project.link ? (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {project.description}
+                </a>
+              ) : (
+                project.description
+              )}
             </div>
+            {renderMedia(project, index)}
+            <div className="date">{project.date}</div>
           </motion.div>
         );
       })}
