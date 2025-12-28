@@ -27,12 +27,16 @@
  * link: 'https://example.com' or 'https://github.com/username/repo'
  * (makes the description text clickable, opens in new tab)
  * If omitted, description is just plain text
+ *
+ * OPTIONAL MEDIA MAX HEIGHT:
+ * mediaMaxHeight: '70%' or '200px'
+ * (constrains tall media to a smaller height)
  */
 
 export const projects = [
   {
     id: 1,
-    description: "rand.om - a site to randomize are.na blocks",
+    description: "Rand.om",
     date: "December 2025",
     mediaType: "gif",
     mediaUrl: "src/images/ezgif-40cdf7474ab8756e.gif",
@@ -52,6 +56,7 @@ export const projects = [
     date: "October 2025",
     mediaType: "image",
     mediaUrl: "src/images/running_good_1.png",
+    mediaMaxHeight: "80%",
   },
   {
     id: 4,

@@ -72,6 +72,7 @@ function App() {
 
     const className = "media-block";
     const clickableClass = project.mediaType !== "iframe" ? " clickable" : "";
+    const mediaStyle = project.mediaMaxHeight ? { maxHeight: project.mediaMaxHeight } : {};
 
     switch (project.mediaType) {
       case "image":
@@ -81,6 +82,7 @@ function App() {
             src={project.mediaUrl}
             alt={project.description}
             className={className + clickableClass}
+            style={mediaStyle}
             onClick={handleClick}
           />
         );
@@ -88,6 +90,7 @@ function App() {
         return (
           <video
             className={className + clickableClass}
+            style={mediaStyle}
             autoPlay
             loop
             muted
@@ -102,6 +105,7 @@ function App() {
           <iframe
             src={project.mediaUrl}
             className={className}
+            style={mediaStyle}
             title={project.description}
           ></iframe>
         );
@@ -128,21 +132,25 @@ function App() {
               ease: shouldReduceMotion ? 'linear' : [0.16, 1, 0.3, 1]
             }}
           >
-            <div className="description">
-              {project.link ? (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {project.description}
-                </a>
-              ) : (
-                project.description
-              )}
+            <div className="media-wrapper">
+              {renderMedia(project, index)}
             </div>
-            {renderMedia(project, index)}
-            <div className="date">{project.date}</div>
+            <div className="text-row">
+              <div className="description">
+                {project.link ? (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.description}
+                  </a>
+                ) : (
+                  project.description
+                )}
+              </div>
+              <div className="date">{project.date}</div>
+            </div>
           </motion.div>
         );
       })}
