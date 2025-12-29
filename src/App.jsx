@@ -72,7 +72,10 @@ function App() {
 
     const className = "media-block";
     const clickableClass = project.mediaType !== "iframe" ? " clickable" : "";
-    const mediaStyle = project.mediaMaxHeight ? { maxHeight: project.mediaMaxHeight } : {};
+    const mediaStyle = {
+      ...(project.mediaMaxHeight && { maxHeight: project.mediaMaxHeight }),
+      ...(project.mediaCrop && { clipPath: `inset(${project.mediaCrop})` }),
+    };
 
     switch (project.mediaType) {
       case "image":

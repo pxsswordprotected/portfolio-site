@@ -31,6 +31,10 @@
  * OPTIONAL MEDIA MAX HEIGHT:
  * mediaMaxHeight: '70%' or '200px'
  * (constrains tall media to a smaller height)
+ *
+ * OPTIONAL MEDIA CROP:
+ * mediaCrop: '2px 0' or '5px 10px 5px 10px'
+ * (crops media using CSS inset: top right bottom left)
  */
 
 export const projects = [
@@ -39,7 +43,8 @@ export const projects = [
     description: "Rand.om",
     date: "December 2025",
     mediaType: "gif",
-    mediaUrl: "src/images/ezgif-40cdf7474ab8756e.gif",
+    mediaUrl:
+      "src/images/rand.om — Original profile — Mozilla Firefox 2025-12-28 17.09.06.gif",
     link: "https://rand-om.vercel.app/", // Optional: makes description clickable
   },
   {
@@ -49,6 +54,7 @@ export const projects = [
     mediaType: "image",
     mediaUrl:
       "https://d2w9rnfcy7mm78.cloudfront.net/38843484/original_6260add4f12de4483d00b7fa586fb1c6.png?1755458813?bc=0",
+    mediaMaxHeight: "80%",
   },
   {
     id: 3,
@@ -69,8 +75,9 @@ export const projects = [
     id: 5,
     description: "Dropdown component",
     date: "October 2025",
-    mediaType: "video",
-    mediaUrl: "src/videos/2025-12-17 18-32-57.mp4",
+    mediaType: "gif",
+    mediaUrl: "src/images/dropdown_gif_v1.gif",
+    mediaCrop: "2px 0", // crops 2px from top and bottom
   },
 
   {
