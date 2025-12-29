@@ -43,8 +43,7 @@ export const projects = [
     description: "Rand.om",
     date: "December 2025",
     mediaType: "gif",
-    mediaUrl:
-      "src/images/rand.om — Original profile — Mozilla Firefox 2025-12-28 17.09.06.gif",
+    mediaUrl: "/images/random-profile.gif",
     link: "https://rand-om.vercel.app/", // Optional: makes description clickable
   },
   {
@@ -61,7 +60,7 @@ export const projects = [
     description: "Product design",
     date: "October 2025",
     mediaType: "image",
-    mediaUrl: "src/images/running_good_1.png",
+    mediaUrl: "/images/running_good_1.png",
     mediaMaxHeight: "80%",
   },
   {
@@ -69,14 +68,14 @@ export const projects = [
     description: "Product design",
     date: "August 2025",
     mediaType: "image",
-    mediaUrl: "src/images/project_nexus.png",
+    mediaUrl: "/images/project_nexus.png",
   },
   {
     id: 5,
     description: "Dropdown component",
     date: "October 2025",
     mediaType: "gif",
-    mediaUrl: "src/images/dropdown_gif_v1.gif",
+    mediaUrl: "/images/dropdown_gif_v1.gif",
     mediaCrop: "2px 0", // crops 2px from top and bottom
   },
 
