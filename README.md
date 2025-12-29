@@ -4,4 +4,4 @@ public
 
 yw.
 
-domain: ____
+domain: https://portfolio-snowy-rho-47.vercel.app/
