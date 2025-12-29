@@ -55,6 +55,9 @@ function App() {
     }
 
     const handleClick = () => {
+      // Disable expansion on mobile (screens <= 768px)
+      if (window.innerWidth <= 768) return;
+
       if (project.mediaType !== "iframe") {
         // Check if this cell is already expanded
         const isExpanded = expandedCell?.id === project.id;
