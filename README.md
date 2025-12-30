@@ -4,4 +4,4 @@ public
 
 yw.
 
-domain: https://portfolio-snowy-rho-47.vercel.app/
+domain: https://work.psswordprotectd.com/
