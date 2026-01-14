@@ -84,27 +84,39 @@ function App() {
       case "image":
       case "gif":
         return (
-          <img
-            src={project.mediaUrl}
-            alt={project.description}
-            className={className + clickableClass}
-            style={mediaStyle}
+          <button
+            type="button"
+            className="media-button"
             onClick={handleClick}
-          />
+            aria-label={`Expand ${project.description}`}
+          >
+            <img
+              src={project.mediaUrl}
+              alt={project.description}
+              className={className}
+              style={mediaStyle}
+            />
+          </button>
         );
       case "video":
         return (
-          <video
-            className={className + clickableClass}
-            style={mediaStyle}
-            autoPlay
-            loop
-            muted
-            playsInline
+          <button
+            type="button"
+            className="media-button"
             onClick={handleClick}
+            aria-label={`Expand ${project.description}`}
           >
-            <source src={project.mediaUrl} />
-          </video>
+            <video
+              className={className}
+              style={mediaStyle}
+              autoPlay={!shouldReduceMotion}
+              loop
+              muted
+              playsInline
+            >
+              <source src={project.mediaUrl} type="video/mp4" />
+            </video>
+          </button>
         );
       case "iframe":
         return (
