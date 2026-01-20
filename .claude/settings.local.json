@@ -6,7 +6,8 @@
       "Bash(dir \"C:\\\\Everything\\\\Programming\\\\Code\\\\portfolio site\\\\portfolio-site-v1\\\\public\" /s /b)",
       "Bash(findstr:*)",
       "Bash(dir:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(npm install:*)"
     ]
   }
 }
