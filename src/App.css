@@ -8,6 +8,19 @@
     font-display: swap;
 }
 
+:root {
+    --popup-padding-vertical: 22px;
+    --popup-padding-horizontal: 48px;
+    --popup-title-size: 20px;
+    --popup-title-margin: 18px;
+    --popup-btn-padding-vertical: 6px;
+    --popup-btn-padding-horizontal: 16px;
+    --popup-btn-font-size: 14px;
+    --popup-btn-gap: 16px;
+    --popup-offset-bottom: 16px;
+    --popup-offset-left: 50%;
+}
+
 html {
     font-family:
         "PPNeueMontreal-Book",
@@ -74,6 +87,7 @@ html {
     align-items: baseline;
     margin: 0 12px 12px 12px;
     flex-shrink: 0;
+    position: relative;
 }
 
 .media-block.placeholder {
@@ -161,4 +175,143 @@ html {
         grid-column: span 1;
         grid-row: span 1;
     }
+}
+
+/* PDF Download Popup */
+.popup-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: transparent;
+}
+
+.popup-container {
+    position: absolute;
+    bottom: 100%;
+    left: var(--popup-offset-left);
+    transform: translateX(-50%);
+    margin-bottom: var(--popup-offset-bottom);
+    background: #fdfdfd;
+    border: 0.5px solid #191919;
+    padding: var(--popup-padding-vertical) var(--popup-padding-horizontal);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 101;
+    white-space: nowrap;
+}
+
+.popup-title {
+    font-size: var(--popup-title-size);
+    font-weight: 400;
+    margin: 0 0 var(--popup-title-margin) 0;
+    text-align: center;
+    color: #191919;
+}
+
+.popup-buttons {
+    display: flex;
+    gap: var(--popup-btn-gap);
+    justify-content: center;
+}
+
+.popup-btn {
+    padding: var(--popup-btn-padding-vertical) var(--popup-btn-padding-horizontal);
+    font-size: var(--popup-btn-font-size);
+    font-family: inherit;
+    border: 0.5px solid #191919;
+    border-radius: 0;
+    cursor: pointer;
+    font-weight: 400;
+    transition: opacity 200ms ease;
+}
+
+.popup-btn:hover {
+    opacity: 0.8;
+}
+
+.popup-yes {
+    background: #fdfdfd;
+    color: #191919;
+}
+
+.popup-no {
+    background: #E74C3C;
+    color: #fdfdfd;
+}
+
+.description-clickable {
+    cursor: pointer;
+    transition: opacity 200ms ease;
+}
+
+.description-clickable:hover {
+    opacity: 0.6;
+}
+
+/* Dev Panel Styles */
+.dev-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #fdfdfd;
+    border: 2px solid #191919;
+    padding: 20px;
+    z-index: 1000;
+    max-width: 350px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.dev-panel h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.dev-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.dev-control label {
+    flex: 0 0 110px;
+    font-size: 13px;
+}
+
+.dev-control input[type="range"] {
+    flex: 1;
+    cursor: pointer;
+}
+
+.dev-control span {
+    flex: 0 0 50px;
+    font-size: 12px;
+    text-align: right;
+    font-family: monospace;
+}
+
+.dev-panel button {
+    margin-top: 12px;
+    padding: 10px 16px;
+    width: 100%;
+    cursor: pointer;
+    background: #191919;
+    color: #fdfdfd;
+    border: none;
+    font-family: inherit;
+    font-size: 14px;
+    transition: opacity 200ms ease;
+}
+
+.dev-panel button:hover {
+    opacity: 0.8;
+}
+
+.dev-panel-hint {
+    font-size: 11px;
+    color: #666;
+    margin-top: 8px;
+    text-align: center;
 }

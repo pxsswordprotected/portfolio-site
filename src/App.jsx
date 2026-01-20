@@ -65,19 +65,49 @@ function VideoMedia({ project, shouldReduceMotion, mediaStyle, onClickHandler })
 
 function App() {
   const [expandedCell, setExpandedCell] = useState(null);
+  const [showPdfPopup, setShowPdfPopup] = useState(false);
+  const [showDevPanel, setShowDevPanel] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
   // ESC key to collapse expanded cell
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === 'Escape' && expandedCell) {
-        setExpandedCell(null);
+      if (event.key === 'Escape') {
+        if (showPdfPopup) {
+          // Close popup first, don't collapse cell
+          event.stopPropagation();
+          setShowPdfPopup(false);
+        } else if (expandedCell) {
+          // Only collapse cell if popup isn't open
+          setExpandedCell(null);
+        }
       }
     };
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [expandedCell]);
+  }, [expandedCell, showPdfPopup]);
+
+  // Ctrl+Shift+D to toggle dev panel
+  useEffect(() => {
+    const handleDevPanelToggle = (event) => {
+      if (event.ctrlKey && event.shiftKey && event.key === 'D') {
+        event.preventDefault();
+        setShowDevPanel(prev => !prev);
+      }
+    };
+
+    document.addEventListener('keydown', handleDevPanelToggle);
+    return () => document.removeEventListener('keydown', handleDevPanelToggle);
+  }, []);
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/draft_v5_guidelines.pdf';
+    link.download = 'Draft_v5_Guidelines.pdf';
+    link.click();
+    setShowPdfPopup(false);
+  };
 
   const getExpansionDirection = (index) => {
     const col = index % 3; // 0, 1, or 2 (left, middle, right)
@@ -183,8 +213,9 @@ function App() {
   };
 
   return (
-    <div className="grid-container">
-      {projects.map((project, index) => {
+    <>
+      <div className="grid-container">
+        {projects.map((project, index) => {
         const isExpanded = expandedCell?.id === project.id;
         const expandClass = isExpanded ? `expanded expand-${expandedCell.direction}` : '';
         const gridPositionStyle = getGridPositionStyle(index, isExpanded);
@@ -204,6 +235,22 @@ function App() {
               {renderMedia(project, index)}
             </div>
             <div className="text-row">
+              {project.showPdfPopup && showPdfPopup && (
+                <>
+                  <div className="popup-backdrop" onClick={() => setShowPdfPopup(false)} />
+                  <div className="popup-container">
+                    <h2 className="popup-title">Download full pdf?</h2>
+                    <div className="popup-buttons">
+                      <button className="popup-btn popup-yes" onClick={handleDownload}>
+                        Yes
+                      </button>
+                      <button className="popup-btn popup-no" onClick={() => setShowPdfPopup(false)}>
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
               <div className="description">
                 {project.link ? (
                   <a
@@ -213,6 +260,13 @@ function App() {
                   >
                     {project.description}
                   </a>
+                ) : project.showPdfPopup ? (
+                  <span
+                    className="description-clickable"
+                    onClick={() => setShowPdfPopup(true)}
+                  >
+                    {project.description}
+                  </span>
                 ) : (
                   project.description
                 )}
@@ -222,7 +276,161 @@ function App() {
           </motion.div>
         );
       })}
-    </div>
+      </div>
+
+      {showDevPanel && (
+        <div className="dev-panel">
+          <h3>Popup Dev Controls</h3>
+
+          <div className="dev-control">
+            <label>Padding (V):</label>
+            <input
+              type="range"
+              min="0"
+              max="80"
+              defaultValue="22"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-padding-vertical', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>22px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Padding (H):</label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              defaultValue="48"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-padding-horizontal', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>48px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Title Font Size:</label>
+            <input
+              type="range"
+              min="16"
+              max="40"
+              defaultValue="20"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-title-size', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>20px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Title Margin:</label>
+            <input
+              type="range"
+              min="0"
+              max="40"
+              defaultValue="18"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-title-margin', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>18px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Button Pad (V):</label>
+            <input
+              type="range"
+              min="0"
+              max="24"
+              defaultValue="6"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-btn-padding-vertical', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>6px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Button Pad (H):</label>
+            <input
+              type="range"
+              min="0"
+              max="60"
+              defaultValue="16"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-btn-padding-horizontal', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>16px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Button Font:</label>
+            <input
+              type="range"
+              min="12"
+              max="28"
+              defaultValue="14"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-btn-font-size', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>14px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Button Gap:</label>
+            <input
+              type="range"
+              min="0"
+              max="32"
+              defaultValue="16"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-btn-gap', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>16px</span>
+          </div>
+
+          <div className="dev-control">
+            <label>Vertical Offset:</label>
+            <input
+              type="range"
+              min="0"
+              max="50"
+              defaultValue="16"
+              onChange={(e) => {
+                const val = e.target.value + 'px';
+                document.documentElement.style.setProperty('--popup-offset-bottom', val);
+                e.target.nextElementSibling.textContent = val;
+              }}
+            />
+            <span>16px</span>
+          </div>
+
+          <button onClick={() => setShowDevPanel(false)}>Close Panel</button>
+          <div className="dev-panel-hint">Press Ctrl+Shift+D to toggle</div>
+        </div>
+      )}
+    </>
   );
 }
 
