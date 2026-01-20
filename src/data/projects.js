@@ -13,6 +13,8 @@
  * mediaType: 'video'
  * mediaUrl: '/videos/demo.mp4' or '/videos/demo.webm'
  * (will autoplay, loop, and be muted)
+ * videoStart: 5.0 (optional - start time in seconds)
+ * videoEnd: 15.0 (optional - end time in seconds, will loop back to start)
  *
  * IFRAME (for live site demos):
  * mediaType: 'iframe'
@@ -35,6 +37,10 @@
  * OPTIONAL MEDIA CROP:
  * mediaCrop: '2px 0' or '5px 10px 5px 10px'
  * (crops media using CSS inset: top right bottom left)
+ *
+ * OPTIONAL MEDIA ZOOM:
+ * mediaZoom: 1.5 or 2
+ * (scales up the media content using CSS transform: scale())
  */
 
 export const projects = [
@@ -57,7 +63,7 @@ export const projects = [
   },
   {
     id: 3,
-    description: "Product design",
+    description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
     mediaUrl: "/images/running_good_1.png",
@@ -65,25 +71,25 @@ export const projects = [
   },
   {
     id: 4,
-    description: "Product design",
+    description: "Project folders",
     date: "August 2025",
     mediaType: "image",
     mediaUrl: "/images/project_nexus.png",
   },
-  {
-    id: 5,
-    description: "Dropdown component",
-    date: "October 2025",
-    mediaType: "gif",
-    mediaUrl: "/images/dropdown_gif_v1.gif",
-    mediaCrop: "2px 0", // crops 2px from top and bottom
-  },
 
   {
+    id: 5,
+    description: "Export options menu",
+    date: "December 2025",
+    mediaType: "video",
+    mediaUrl: "/videos/export-options-v3.mp4",
+    mediaZoom: 1.4,
+    videoStart: 3.0,
+    videoEnd: 14.0,
+  },
+  {
     id: 6,
-    description: "6",
-    date: "6",
-    mediaType: null,
-    mediaUrl: null,
+    description: "Export options menu",
+    date: "December 2025",
   },
 ];

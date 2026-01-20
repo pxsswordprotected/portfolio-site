@@ -1,7 +1,67 @@
-import { useState, useEffect } from "react";
-import { motion, useReducedMotion } from 'framer-motion';
+import { useState, useEffect, useRef } from "react";
+import { motion, useReducedMotion, useInView } from 'framer-motion';
 import "./App.css";
 import { projects } from "./data/projects";
+
+function VideoMedia({ project, shouldReduceMotion, mediaStyle, onClickHandler }) {
+  const videoRef = useRef(null);
+  const isInView = useInView(videoRef, { amount: 0.1 });
+
+  // Set initial video time
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !project.videoStart) return;
+
+    video.currentTime = project.videoStart;
+  }, [project.videoStart]);
+
+  // Handle trimming
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !project.videoEnd) return;
+
+    const handleTimeUpdate = () => {
+      if (video.currentTime >= project.videoEnd) {
+        video.currentTime = project.videoStart || 0;
+      }
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    return () => video.removeEventListener('timeupdate', handleTimeUpdate);
+  }, [project.videoStart, project.videoEnd]);
+
+  // Play/pause based on viewport
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isInView && !shouldReduceMotion) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [isInView, shouldReduceMotion]);
+
+  return (
+    <button
+      type="button"
+      className="media-button"
+      onClick={onClickHandler}
+      aria-label={`Expand ${project.description}`}
+    >
+      <video
+        ref={videoRef}
+        className="media-block"
+        style={mediaStyle}
+        loop
+        muted
+        playsInline
+      >
+        <source src={project.mediaUrl} type="video/mp4" />
+      </video>
+    </button>
+  );
+}
 
 function App() {
   const [expandedCell, setExpandedCell] = useState(null);
@@ -78,6 +138,7 @@ function App() {
     const mediaStyle = {
       ...(project.mediaMaxHeight && { maxHeight: project.mediaMaxHeight }),
       ...(project.mediaCrop && { clipPath: `inset(${project.mediaCrop})` }),
+      ...(project.mediaZoom && { transform: `scale(${project.mediaZoom})` }),
     };
 
     switch (project.mediaType) {
@@ -100,23 +161,12 @@ function App() {
         );
       case "video":
         return (
-          <button
-            type="button"
-            className="media-button"
-            onClick={handleClick}
-            aria-label={`Expand ${project.description}`}
-          >
-            <video
-              className={className}
-              style={mediaStyle}
-              autoPlay={!shouldReduceMotion}
-              loop
-              muted
-              playsInline
-            >
-              <source src={project.mediaUrl} type="video/mp4" />
-            </video>
-          </button>
+          <VideoMedia
+            project={project}
+            shouldReduceMotion={shouldReduceMotion}
+            mediaStyle={mediaStyle}
+            onClickHandler={handleClick}
+          />
         );
       case "iframe":
         return (
