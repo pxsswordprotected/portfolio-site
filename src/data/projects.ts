@@ -103,10 +103,8 @@ export const projects: Project[] = [
     description: "Export options menu",
     date: "December 2025",
     mediaType: "video",
-    mediaUrl: "/videos/export-options-menu-6.mp4",
+    mediaUrl: "/videos/export-options-menu-67.mp4",
     mediaZoom: 1.1,
-    videoStart: 4.0,
-    videoEnd: 19.0,
   },
   {
     id: 6,
