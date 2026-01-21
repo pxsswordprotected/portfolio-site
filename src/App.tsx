@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useReducedMotion, useInView } from 'framer-motion';
 import "./App.css";
 import { projects, type Project } from "./data/projects";
+import ImageCarousel from './components/ImageCarousel';
 
 // TypeScript Interfaces
 interface ExpandedCell {
@@ -140,6 +141,38 @@ function App() {
   };
 
   const renderMedia = (project: Project, index: number) => {
+    // Handle carousel media type
+    if (project.mediaType === "carousel" && project.carouselImages) {
+      const isExpanded = expandedCell?.id === project.id;
+
+      const handleClick = () => {
+        // Disable expansion on mobile (screens <= 768px)
+        if (window.innerWidth <= 768) return;
+
+        if (isExpanded) {
+          // Collapse if already expanded
+          setExpandedCell(null);
+        } else {
+          // Expand if not expanded
+          const direction = getExpansionDirection(index);
+          setExpandedCell({ id: project.id, direction });
+        }
+      };
+
+      return (
+        <ImageCarousel
+          images={project.carouselImages}
+          projectDescription={project.description}
+          isExpanded={isExpanded}
+          shouldReduceMotion={shouldReduceMotion}
+          onClickHandler={handleClick}
+          mediaMaxHeight={project.mediaMaxHeight}
+          mediaCrop={project.mediaCrop}
+          mediaZoom={project.mediaZoom}
+        />
+      );
+    }
+
     if (!project.mediaType || !project.mediaUrl) {
       return <div className="media-block placeholder"></div>;
     }

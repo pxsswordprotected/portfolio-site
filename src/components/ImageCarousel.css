@@ -1,0 +1,76 @@
+/* Carousel wrapper - relative container for absolute positioned layers */
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Carousel button - inherits from media-button */
+.carousel-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 2px solid red;
+}
+
+/* Individual image layers - stacked absolutely */
+.carousel-image-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Dot indicators container */
+.carousel-indicators {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 1000;
+    pointer-events: all;
+}
+
+/* Individual dots */
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-dot:hover {
+    border-color: rgba(255, 255, 255, 1);
+    transform: scale(1.2);
+}
+
+.carousel-dot:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 1);
+    outline-offset: 2px;
+}
+
+.carousel-dot.active {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Hide indicators on mobile (<=1048px) */
+@media (max-width: 1048px) {
+    .carousel-indicators {
+        display: none;
+    }
+}

@@ -25,6 +25,11 @@
  * mediaUrl: null
  * (shows gray block)
  *
+ * CAROUSEL (multiple images with auto-rotation):
+ * mediaType: 'carousel'
+ * carouselImages: ['/images/image1.png', '/images/image2.png', '/images/image3.png']
+ * (auto-rotates every 2.5s when collapsed, shows dots when expanded)
+ *
  * OPTIONAL LINK:
  * link: 'https://example.com' or 'https://github.com/username/repo'
  * (makes the description text clickable, opens in new tab)
@@ -47,8 +52,9 @@ export interface Project {
   id: number;
   description: string;
   date: string;
-  mediaType?: "image" | "gif" | "video" | "iframe" | null;
+  mediaType?: "image" | "gif" | "video" | "iframe" | "carousel" | null;
   mediaUrl?: string;
+  carouselImages?: string[];
   link?: string;
   mediaMaxHeight?: string;
   mediaCrop?: string;
@@ -106,6 +112,14 @@ export const projects: Project[] = [
     id: 6,
     description: "Design & Branding guidelines",
     date: "October 2025",
+    mediaType: "carousel",
+    carouselImages: [
+      "/images/1.png",
+      "/images/2.png",
+      "/images/3.png",
+      "/images/4.png",
+      "/images/5.png",
+    ],
     link: "https://chrislakin.blog/",
   },
 ];
