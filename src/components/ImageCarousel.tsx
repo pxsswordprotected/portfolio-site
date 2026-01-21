@@ -24,7 +24,9 @@ function ImageCarousel({
   mediaZoom,
 }: ImageCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPausedByUser, setIsPausedByUser] = useState(false);
   const autoRotateTimerRef = useRef<number | null>(null);
+  const pauseTimeoutRef = useRef<number | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(carouselRef, { once: false, amount: 0.01 });
 
@@ -36,8 +38,8 @@ function ImageCarousel({
       autoRotateTimerRef.current = null;
     }
 
-    // Only auto-rotate if: in viewport, motion not reduced, and more than 1 image
-    if (isInView && !shouldReduceMotion && images.length > 1) {
+    // Only auto-rotate if: in viewport, motion not reduced, not paused by user, and more than 1 image
+    if (isInView && !shouldReduceMotion && !isPausedByUser && images.length > 1) {
       autoRotateTimerRef.current = window.setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
       }, 2500); // 2.5 seconds
@@ -50,12 +52,19 @@ function ImageCarousel({
         autoRotateTimerRef.current = null;
       }
     };
-  }, [isInView, shouldReduceMotion, images.length]);
+  }, [isInView, shouldReduceMotion, isPausedByUser, images.length]);
 
-  // Reset to first image when cell collapses
+  // Reset to first image and clear pause when cell collapses
   useEffect(() => {
     if (!isExpanded) {
       setActiveIndex(0);
+      setIsPausedByUser(false);
+
+      // Clear any pending pause timeout
+      if (pauseTimeoutRef.current) {
+        window.clearTimeout(pauseTimeoutRef.current);
+        pauseTimeoutRef.current = null;
+      }
     }
   }, [isExpanded]);
 
@@ -64,22 +73,58 @@ function ImageCarousel({
     if (!isExpanded) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowRight') {
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
         event.preventDefault();
-        setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
-      } else if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        setActiveIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+
+        // Pause auto-rotation
+        setIsPausedByUser(true);
+
+        // Clear any existing pause timeout
+        if (pauseTimeoutRef.current) {
+          window.clearTimeout(pauseTimeoutRef.current);
+        }
+
+        // Resume auto-rotation after 3 seconds
+        pauseTimeoutRef.current = window.setTimeout(() => {
+          setIsPausedByUser(false);
+        }, 3000);
+
+        // Navigate
+        if (event.key === 'ArrowRight') {
+          setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
+        } else {
+          setActiveIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+        }
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      // Clean up pause timeout when unmounting
+      if (pauseTimeoutRef.current) {
+        window.clearTimeout(pauseTimeoutRef.current);
+      }
+    };
   }, [isExpanded, images.length]);
 
   // Handle dot click
   const handleDotClick = (index: number, event: React.MouseEvent) => {
     event.stopPropagation(); // Prevent cell collapse
+
+    // Pause auto-rotation
+    setIsPausedByUser(true);
+
+    // Clear any existing pause timeout
+    if (pauseTimeoutRef.current) {
+      window.clearTimeout(pauseTimeoutRef.current);
+    }
+
+    // Resume auto-rotation after 3 seconds
+    pauseTimeoutRef.current = window.setTimeout(() => {
+      setIsPausedByUser(false);
+    }, 3000);
+
     setActiveIndex(index);
   };
 
