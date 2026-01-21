@@ -43,7 +43,22 @@
  * (scales up the media content using CSS transform: scale())
  */
 
-export const projects = [
+export interface Project {
+  id: number;
+  description: string;
+  date: string;
+  mediaType?: "image" | "gif" | "video" | "iframe" | null;
+  mediaUrl?: string;
+  link?: string;
+  mediaMaxHeight?: string;
+  mediaCrop?: string;
+  mediaZoom?: number;
+  videoStart?: number;
+  videoEnd?: number;
+  showPdfPopup?: boolean;
+}
+
+export const projects: Project[] = [
   {
     id: 1,
     description: "Rand.om",
@@ -84,11 +99,11 @@ export const projects = [
     mediaType: "video",
     mediaUrl: "/videos/export-options-menu-6.mp4",
     mediaZoom: 1.1,
-    videoStart: 3.0,
+    videoStart: 4.0,
     videoEnd: 19.0,
   },
   {
-    id: 5,
+    id: 6,
     description: "Design & Branding guidelines",
     date: "October 2025",
     link: "https://chrislakin.blog/",
