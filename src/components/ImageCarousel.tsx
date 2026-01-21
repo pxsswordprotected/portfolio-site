@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
 import './ImageCarousel.css';
 
@@ -108,8 +108,13 @@ function ImageCarousel({
     };
   }, [isExpanded, images.length]);
 
-  // Handle dot click
-  const handleDotClick = (index: number, event: React.MouseEvent) => {
+  // OPTIMIZATION 1: Memoize handleDotClick with useCallback
+  // WHY: This function is passed to multiple button elements (one per dot indicator).
+  // Without useCallback, a NEW function is created on EVERY render, causing ALL
+  // dot buttons to re-render even when nothing changed. useCallback ensures the
+  // function reference stays the same unless dependencies change.
+  // IMPACT: Prevents unnecessary re-renders of all dot buttons.
+  const handleDotClick = useCallback((index: number, event: React.MouseEvent) => {
     event.stopPropagation(); // Prevent cell collapse
 
     // Pause auto-rotation
@@ -126,21 +131,45 @@ function ImageCarousel({
     }, 3000);
 
     setActiveIndex(index);
-  };
+  }, []); // Empty deps: function logic doesn't depend on any props/state (uses refs and setters)
 
-  // Base media styles
-  const mediaStyle = {
+  // OPTIMIZATION 2a: Memoize mediaStyle object
+  // WHY: This object is created on EVERY render and spread into the style prop of
+  // EVERY image in the carousel. JavaScript creates a new object reference each time,
+  // even if the values are identical. This causes React to think the style changed,
+  // triggering re-renders of all images. useMemo caches the object and only recreates
+  // it when the actual dependencies (mediaMaxHeight, mediaCrop, mediaZoom) change.
+  // IMPACT: Prevents unnecessary re-renders of all motion.img elements.
+  const mediaStyle = useMemo(() => ({
     ...(mediaMaxHeight && { maxHeight: mediaMaxHeight }),
     ...(mediaCrop && { clipPath: `inset(${mediaCrop})` }),
     ...(mediaZoom && { transform: `scale(${mediaZoom})` }),
-  };
+  }), [mediaMaxHeight, mediaCrop, mediaZoom]);
 
-  // Spring animation config
-  const springConfig = {
+  // OPTIMIZATION 2b: Memoize springConfig object
+  // WHY: Similar to mediaStyle - this config object is passed to Framer Motion's
+  // transition prop on every image. A new object reference on each render causes
+  // Framer Motion to recalculate animation configs unnecessarily. Since these values
+  // never change, we use an empty dependency array to create it only once.
+  // IMPACT: Prevents Framer Motion from reconfiguring springs on every render.
+  const springConfig = useMemo(() => ({
     stiffness: 250,
     damping: 25,
     mass: 0.5,
-  };
+  }), []); // Empty deps: config never changes
+
+  // OPTIMIZATION 3: Memoize onKeyDown handler for main carousel div
+  // WHY: Inline arrow functions (like the one we had in onKeyDown) create a NEW
+  // function on every render. This causes the entire carousel div to re-render
+  // even when nothing changed. By extracting it to useCallback, React can skip
+  // re-rendering the div when the function reference stays the same.
+  // IMPACT: Prevents unnecessary re-renders of the main carousel container.
+  const handleCarouselKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClickHandler();
+    }
+  }, [onClickHandler]); // Depends on onClickHandler from props
 
   // Fallback for empty images array
   if (images.length === 0) {
@@ -153,12 +182,7 @@ function ImageCarousel({
       onClick={onClickHandler}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClickHandler();
-        }
-      }}
+      onKeyDown={handleCarouselKeyDown}
       aria-label={
         isExpanded
           ? `${projectDescription} carousel, image ${activeIndex + 1} of ${images.length}`
