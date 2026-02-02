@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { motion, useInView } from 'framer-motion';
-import './ImageCarousel.css';
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
+import "./ImageCarousel.css";
 
 interface ImageCarouselProps {
   images: string[];
@@ -14,6 +14,7 @@ interface ImageCarouselProps {
 }
 
 function ImageCarousel({
+  //fn ImageCar({x}: ImageCarouselProps ) {}
   images,
   projectDescription,
   isExpanded,
@@ -39,7 +40,12 @@ function ImageCarousel({
     }
 
     // Only auto-rotate if: in viewport, motion not reduced, not paused by user, and more than 1 image
-    if (isInView && !shouldReduceMotion && !isPausedByUser && images.length > 1) {
+    if (
+      isInView &&
+      !shouldReduceMotion &&
+      !isPausedByUser &&
+      images.length > 1
+    ) {
       autoRotateTimerRef.current = window.setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
       }, 2500); // 2.5 seconds
@@ -73,7 +79,7 @@ function ImageCarousel({
     if (!isExpanded) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
         event.preventDefault();
 
         // Pause auto-rotation
@@ -90,17 +96,19 @@ function ImageCarousel({
         }, 3000);
 
         // Navigate
-        if (event.key === 'ArrowRight') {
+        if (event.key === "ArrowRight") {
           setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
         } else {
-          setActiveIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+          setActiveIndex(
+            (prevIndex) => (prevIndex - 1 + images.length) % images.length,
+          );
         }
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
       // Clean up pause timeout when unmounting
       if (pauseTimeoutRef.current) {
         window.clearTimeout(pauseTimeoutRef.current);
@@ -114,24 +122,27 @@ function ImageCarousel({
   // dot buttons to re-render even when nothing changed. useCallback ensures the
   // function reference stays the same unless dependencies change.
   // IMPACT: Prevents unnecessary re-renders of all dot buttons.
-  const handleDotClick = useCallback((index: number, event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent cell collapse
+  const handleDotClick = useCallback(
+    (index: number, event: React.MouseEvent) => {
+      event.stopPropagation(); // Prevent cell collapse
 
-    // Pause auto-rotation
-    setIsPausedByUser(true);
+      // Pause auto-rotation
+      setIsPausedByUser(true);
 
-    // Clear any existing pause timeout
-    if (pauseTimeoutRef.current) {
-      window.clearTimeout(pauseTimeoutRef.current);
-    }
+      // Clear any existing pause timeout
+      if (pauseTimeoutRef.current) {
+        window.clearTimeout(pauseTimeoutRef.current);
+      }
 
-    // Resume auto-rotation after 3 seconds
-    pauseTimeoutRef.current = window.setTimeout(() => {
-      setIsPausedByUser(false);
-    }, 3000);
+      // Resume auto-rotation after 3 seconds
+      pauseTimeoutRef.current = window.setTimeout(() => {
+        setIsPausedByUser(false);
+      }, 3000);
 
-    setActiveIndex(index);
-  }, []); // Empty deps: function logic doesn't depend on any props/state (uses refs and setters)
+      setActiveIndex(index);
+    },
+    [],
+  ); // Empty deps: function logic doesn't depend on any props/state (uses refs and setters)
 
   // OPTIMIZATION 2a: Memoize mediaStyle object
   // WHY: This object is created on EVERY render and spread into the style prop of
@@ -140,11 +151,14 @@ function ImageCarousel({
   // triggering re-renders of all images. useMemo caches the object and only recreates
   // it when the actual dependencies (mediaMaxHeight, mediaCrop, mediaZoom) change.
   // IMPACT: Prevents unnecessary re-renders of all motion.img elements.
-  const mediaStyle = useMemo(() => ({
-    ...(mediaMaxHeight && { maxHeight: mediaMaxHeight }),
-    ...(mediaCrop && { clipPath: `inset(${mediaCrop})` }),
-    ...(mediaZoom && { transform: `scale(${mediaZoom})` }),
-  }), [mediaMaxHeight, mediaCrop, mediaZoom]);
+  const mediaStyle = useMemo(
+    () => ({
+      ...(mediaMaxHeight && { maxHeight: mediaMaxHeight }),
+      ...(mediaCrop && { clipPath: `inset(${mediaCrop})` }),
+      ...(mediaZoom && { transform: `scale(${mediaZoom})` }),
+    }),
+    [mediaMaxHeight, mediaCrop, mediaZoom],
+  );
 
   // OPTIMIZATION 2b: Memoize springConfig object
   // WHY: Similar to mediaStyle - this config object is passed to Framer Motion's
@@ -152,11 +166,14 @@ function ImageCarousel({
   // Framer Motion to recalculate animation configs unnecessarily. Since these values
   // never change, we use an empty dependency array to create it only once.
   // IMPACT: Prevents Framer Motion from reconfiguring springs on every render.
-  const springConfig = useMemo(() => ({
-    stiffness: 250,
-    damping: 25,
-    mass: 0.5,
-  }), []); // Empty deps: config never changes
+  const springConfig = useMemo(
+    () => ({
+      stiffness: 250,
+      damping: 25,
+      mass: 0.5,
+    }),
+    [],
+  ); // Empty deps: config never changes
 
   // OPTIMIZATION 3: Memoize onKeyDown handler for main carousel div
   // WHY: Inline arrow functions (like the one we had in onKeyDown) create a NEW
@@ -164,12 +181,15 @@ function ImageCarousel({
   // even when nothing changed. By extracting it to useCallback, React can skip
   // re-rendering the div when the function reference stays the same.
   // IMPACT: Prevents unnecessary re-renders of the main carousel container.
-  const handleCarouselKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onClickHandler();
-    }
-  }, [onClickHandler]); // Depends on onClickHandler from props
+  const handleCarouselKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onClickHandler();
+      }
+    },
+    [onClickHandler],
+  ); // Depends on onClickHandler from props
 
   // Fallback for empty images array
   if (images.length === 0) {
@@ -211,14 +231,14 @@ function ImageCarousel({
               className="carousel-image-layer media-block"
               style={{
                 ...mediaStyle,
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
                 zIndex: isVisible ? zIndex : -1,
-                pointerEvents: 'none',
+                pointerEvents: "none",
               }}
               initial={false}
               animate={{
@@ -231,11 +251,11 @@ function ImageCarousel({
                 shouldReduceMotion
                   ? { duration: 0 }
                   : {
-                      type: 'spring',
+                      type: "spring",
                       ...springConfig,
                     }
               }
-              aria-current={index === activeIndex ? 'true' : 'false'}
+              aria-current={index === activeIndex ? "true" : "false"}
             />
           );
         })}
@@ -247,10 +267,10 @@ function ImageCarousel({
               <button
                 key={index}
                 type="button"
-                className={`carousel-dot ${index === activeIndex ? 'active' : ''}`}
+                className={`carousel-dot ${index === activeIndex ? "active" : ""}`}
                 onClick={(e) => handleDotClick(index, e)}
                 aria-label={`Go to image ${index + 1}`}
-                aria-current={index === activeIndex ? 'true' : 'false'}
+                aria-current={index === activeIndex ? "true" : "false"}
               />
             ))}
           </div>

@@ -45,27 +45,27 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    border: 1.5px solid rgba(0, 0, 0, 0.6);
     background: transparent;
     cursor: pointer;
     transition: all 0.2s ease;
     padding: 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .carousel-dot:hover {
-    border-color: rgba(255, 255, 255, 1);
+    border-color: rgba(0, 0, 0, 0.9);
     transform: scale(1.2);
 }
 
 .carousel-dot:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 1);
+    outline: 2px solid rgba(0, 0, 0, 0.9);
     outline-offset: 2px;
 }
 
 .carousel-dot.active {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(0, 0, 0, 0.8);
 }
 
 /* Hide indicators on mobile (<=1048px) */
