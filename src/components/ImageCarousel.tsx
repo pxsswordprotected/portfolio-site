@@ -14,7 +14,6 @@ interface ImageCarouselProps {
 }
 
 function ImageCarousel({
-  //fn ImageCar({x}: ImageCarouselProps ) {}
   images,
   projectDescription,
   isExpanded,
@@ -31,15 +30,13 @@ function ImageCarousel({
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(carouselRef, { once: false, amount: 0.01 });
 
-  // Auto-rotation logic (only when collapsed, in view, and motion not reduced)
+  // Auto-rotation logic
   useEffect(() => {
-    // Clear any existing timer
     if (autoRotateTimerRef.current) {
       window.clearInterval(autoRotateTimerRef.current);
       autoRotateTimerRef.current = null;
     }
 
-    // Only auto-rotate if: in viewport, motion not reduced, not paused by user, and more than 1 image
     if (
       isInView &&
       !shouldReduceMotion &&
@@ -48,109 +45,66 @@ function ImageCarousel({
     ) {
       autoRotateTimerRef.current = window.setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 2500); // 2.5 seconds
+      }, 2500);
     }
 
-    // Cleanup on unmount or when dependencies change
     return () => {
       if (autoRotateTimerRef.current) {
         window.clearInterval(autoRotateTimerRef.current);
-        autoRotateTimerRef.current = null;
       }
     };
   }, [isInView, shouldReduceMotion, isPausedByUser, images.length]);
 
-  // Reset to first image and clear pause when cell collapses
+  // Reset logic
   useEffect(() => {
     if (!isExpanded) {
       setActiveIndex(0);
       setIsPausedByUser(false);
-
-      // Clear any pending pause timeout
       if (pauseTimeoutRef.current) {
         window.clearTimeout(pauseTimeoutRef.current);
-        pauseTimeoutRef.current = null;
       }
     }
   }, [isExpanded]);
 
-  // Keyboard navigation (only when expanded)
+  // Keyboard navigation
   useEffect(() => {
     if (!isExpanded) return;
-
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
         event.preventDefault();
-
-        // Pause auto-rotation
         setIsPausedByUser(true);
-
-        // Clear any existing pause timeout
-        if (pauseTimeoutRef.current) {
+        if (pauseTimeoutRef.current)
           window.clearTimeout(pauseTimeoutRef.current);
-        }
+        pauseTimeoutRef.current = window.setTimeout(
+          () => setIsPausedByUser(false),
+          3000,
+        );
 
-        // Resume auto-rotation after 3 seconds
-        pauseTimeoutRef.current = window.setTimeout(() => {
-          setIsPausedByUser(false);
-        }, 3000);
-
-        // Navigate
         if (event.key === "ArrowRight") {
-          setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
+          setActiveIndex((prev) => (prev + 1) % images.length);
         } else {
-          setActiveIndex(
-            (prevIndex) => (prevIndex - 1 + images.length) % images.length,
-          );
+          setActiveIndex((prev) => (prev - 1 + images.length) % images.length);
         }
       }
     };
-
     document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      // Clean up pause timeout when unmounting
-      if (pauseTimeoutRef.current) {
-        window.clearTimeout(pauseTimeoutRef.current);
-      }
-    };
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isExpanded, images.length]);
 
-  // OPTIMIZATION 1: Memoize handleDotClick with useCallback
-  // WHY: This function is passed to multiple button elements (one per dot indicator).
-  // Without useCallback, a NEW function is created on EVERY render, causing ALL
-  // dot buttons to re-render even when nothing changed. useCallback ensures the
-  // function reference stays the same unless dependencies change.
-  // IMPACT: Prevents unnecessary re-renders of all dot buttons.
   const handleDotClick = useCallback(
     (index: number, event: React.MouseEvent) => {
-      event.stopPropagation(); // Prevent cell collapse
-
-      // Pause auto-rotation
+      event.stopPropagation();
       setIsPausedByUser(true);
-
-      // Clear any existing pause timeout
-      if (pauseTimeoutRef.current) {
-        window.clearTimeout(pauseTimeoutRef.current);
-      }
-
-      // Resume auto-rotation after 3 seconds
-      pauseTimeoutRef.current = window.setTimeout(() => {
-        setIsPausedByUser(false);
-      }, 3000);
-
+      if (pauseTimeoutRef.current) window.clearTimeout(pauseTimeoutRef.current);
+      pauseTimeoutRef.current = window.setTimeout(
+        () => setIsPausedByUser(false),
+        3000,
+      );
       setActiveIndex(index);
     },
     [],
-  ); // Empty deps: function logic doesn't depend on any props/state (uses refs and setters)
+  );
 
-  // OPTIMIZATION 2a: Memoize mediaStyle object
-  // WHY: This object is created on EVERY render and spread into the style prop of
-  // EVERY image in the carousel. JavaScript creates a new object reference each time,
-  // even if the values are identical. This causes React to think the style changed,
-  // triggering re-renders of all images. useMemo caches the object and only recreates
-  // it when the actual dependencies (mediaMaxHeight, mediaCrop, mediaZoom) change.
-  // IMPACT: Prevents unnecessary re-renders of all motion.img elements.
   const mediaStyle = useMemo(
     () => ({
       ...(mediaMaxHeight && { maxHeight: mediaMaxHeight }),
@@ -160,12 +114,6 @@ function ImageCarousel({
     [mediaMaxHeight, mediaCrop, mediaZoom],
   );
 
-  // OPTIMIZATION 2b: Memoize springConfig object
-  // WHY: Similar to mediaStyle - this config object is passed to Framer Motion's
-  // transition prop on every image. A new object reference on each render causes
-  // Framer Motion to recalculate animation configs unnecessarily. Since these values
-  // never change, we use an empty dependency array to create it only once.
-  // IMPACT: Prevents Framer Motion from reconfiguring springs on every render.
   const springConfig = useMemo(
     () => ({
       stiffness: 250,
@@ -173,14 +121,8 @@ function ImageCarousel({
       mass: 0.5,
     }),
     [],
-  ); // Empty deps: config never changes
+  );
 
-  // OPTIMIZATION 3: Memoize onKeyDown handler for main carousel div
-  // WHY: Inline arrow functions (like the one we had in onKeyDown) create a NEW
-  // function on every render. This causes the entire carousel div to re-render
-  // even when nothing changed. By extracting it to useCallback, React can skip
-  // re-rendering the div when the function reference stays the same.
-  // IMPACT: Prevents unnecessary re-renders of the main carousel container.
   const handleCarouselKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -189,12 +131,10 @@ function ImageCarousel({
       }
     },
     [onClickHandler],
-  ); // Depends on onClickHandler from props
+  );
 
-  // Fallback for empty images array
-  if (images.length === 0) {
+  if (images.length === 0)
     return <div className="media-block placeholder"></div>;
-  }
 
   return (
     <div
@@ -205,38 +145,28 @@ function ImageCarousel({
       onKeyDown={handleCarouselKeyDown}
       aria-label={
         isExpanded
-          ? `${projectDescription} carousel, image ${activeIndex + 1} of ${images.length}`
+          ? `${projectDescription} carousel`
           : `Expand ${projectDescription} carousel`
       }
       aria-expanded={isExpanded}
     >
       <div ref={carouselRef} className="carousel-wrapper">
-        {/* Render stacked images */}
         {images.map((imageSrc, index) => {
+          // MATH: Calculate the relative distance from the active image
           let offsetIndex = index - activeIndex;
 
-          // Wrap-around math so the previous image correctly fades out
-          if (offsetIndex === images.length - 1) {
-            offsetIndex = -1;
-          } else if (offsetIndex < -1) {
-            // Wrap-around for images loading into the back of the stack
-            offsetIndex += images.length;
-          }
+          // Wrap-around logic to ensure the "previous" image transitions behind
+          if (offsetIndex === images.length - 1) offsetIndex = -1;
+          else if (offsetIndex < -1) offsetIndex += images.length;
 
-          // THE DOM LIMITER:
-          // Only mount the fading-out layer (-1), active layer (0), and next two (1, 2).
-          // Completely destroy all other nodes to free RAM and calculation cycles.
-          if (offsetIndex < -1 || offsetIndex > 2) {
-            return null;
-          }
+          // PERFORMANCE: Prune DOM - Only keep active, previous, and next 2 layers
+          if (offsetIndex < -1 || offsetIndex > 2) return null;
 
           const isVisible = offsetIndex >= 0 && offsetIndex < 3;
 
+          // Visual constants
           const scale = shouldReduceMotion ? 1 : 1 - offsetIndex * 0.05;
           const y = shouldReduceMotion ? 0 : offsetIndex * 15;
-
-          // Force blur to 0 when invisible to instantly free GPU resources
-          const blur = shouldReduceMotion || !isVisible ? 0 : offsetIndex * 1;
           const opacity = offsetIndex < 0 ? 0 : 1;
           const zIndex = 100 - offsetIndex;
 
@@ -244,9 +174,9 @@ function ImageCarousel({
             <motion.img
               key={index}
               src={imageSrc}
-              loading="lazy" // Network optimization
-              decoding="async" // CPU optimization: decode off the main thread
-              alt={`${projectDescription} - image ${index + 1} of ${images.length}`}
+              loading="lazy"
+              decoding="async" // Off-thread decoding
+              alt={`${projectDescription} image ${index + 1}`}
               className="carousel-image-layer media-block"
               style={{
                 ...mediaStyle,
@@ -258,28 +188,23 @@ function ImageCarousel({
                 objectFit: "contain",
                 zIndex: isVisible ? zIndex : -1,
                 pointerEvents: "none",
+                willChange: "transform, opacity", // Hardware acceleration hint
               }}
               initial={false}
               animate={{
                 scale,
                 y,
-                filter: `blur(${blur}px)`,
                 opacity,
               }}
               transition={
                 shouldReduceMotion
                   ? { duration: 0 }
-                  : {
-                      type: "spring",
-                      ...springConfig,
-                    }
+                  : { type: "spring", ...springConfig }
               }
-              aria-current={index === activeIndex ? "true" : "false"}
             />
           );
         })}
 
-        {/* Dot indicators (only when expanded and on desktop) */}
         {isExpanded && images.length > 1 && (
           <div className="carousel-indicators">
             {images.map((_, index) => (
@@ -288,8 +213,6 @@ function ImageCarousel({
                 type="button"
                 className={`carousel-dot ${index === activeIndex ? "active" : ""}`}
                 onClick={(e) => handleDotClick(index, e)}
-                aria-label={`Go to image ${index + 1}`}
-                aria-current={index === activeIndex ? "true" : "false"}
               />
             ))}
           </div>
