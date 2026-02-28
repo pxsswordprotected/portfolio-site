@@ -122,6 +122,8 @@ export const projects: Project[] = [
       "/images/5.webp",
     ],
     link: "https://chrislakin.blog/",
+    explanation:
+      "These branding guidelines for <a href='https://x.com/chrislakin' target='_blank' rel='noopener noreferrer'>Chris Lakin</a> were built to serve his existing brand, Locally Optimal. I worked with him to understand what he needed and turned that into a visual language that helped grow the brand. I also created design templates that made it easier to produce consistent graphics for his writing.",
   },
 
   {
