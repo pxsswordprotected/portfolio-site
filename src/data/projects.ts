@@ -80,39 +80,37 @@ export const projects: Project[] = [
     mediaCrop: "0px 24px",
     mediaZoom: 1.3,
     explanation:
-      "Rand.om fetches random blocks from Are.na channels. I designed the site to match Are.na's minimal black and white styling without impeding on the user's interactions. ",
+      "Rand.om fetches random blocks from Are.na channels. I built this site as a way to remind oneself of what once was. It is designed to match Are.na's minimal black and white styling without impeding the user's interactions. Animations and styling contain small gestures users find helpful and delightful.",
   },
   {
     id: 2,
     description: "Drawer",
-    date: "January 2026",
+    date: "December 2025",
     mediaType: "video",
     mediaUrl: "/videos/drawer_v3_opt.mp4",
+    link: "https://github.com/pxsswordprotected/Drawer",
+    explanation:
+      'Drawer is an open source browser extension for quick, delightful highlighting & notetaking. It stays out of your way by taking up a small amount of screen space, only appearing when you need it. Design and animations are inspired by Benji Taylor\'s <a href="https://benji.org/family-values" target="_blank" rel="noopener noreferrer">Family</a>.',
   },
   {
     id: 3,
-    description: "Drawer",
-    date: "December 2025",
-    mediaType: "video",
-    mediaUrl: "/videos/draweradd_v3_opt.mp4",
-  },
-  {
-    id: 4,
-    description: "Project folders",
-    date: "August 2025",
-    mediaType: "image",
-    mediaUrl: "/images/project_nexus.png",
-  },
-
-  {
-    id: 5,
     description: "Export options menu",
     date: "December 2025",
     mediaType: "video",
     mediaUrl: "/videos/export-options-menu-67.mp4",
   },
   {
-    id: 6,
+    id: 4,
+    description: "Drawer",
+    date: "December 2025",
+    mediaType: "video",
+    mediaUrl: "/videos/draweradd_v3_opt.mp4",
+    link: "https://github.com/pxsswordprotected/Drawer",
+    explanation:
+      "This is the add-to-highlights interaction for Drawer. Two small animations: the plus icon morphing into a checkmark on success, and the existing highlights smoothly shifting to make room for the new one.",
+  },
+  {
+    id: 5,
     description: "Design & Branding guidelines",
     date: "October 2025",
     mediaType: "carousel",
@@ -125,6 +123,15 @@ export const projects: Project[] = [
     ],
     link: "https://chrislakin.blog/",
   },
+
+  {
+    id: 6,
+    description: "Project folders",
+    date: "August 2025",
+    mediaType: "image",
+    mediaUrl: "/images/project_nexus.png",
+  },
+
   {
     id: 7,
     description: "Workflow progress",

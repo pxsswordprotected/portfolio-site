@@ -360,7 +360,7 @@ function App() {
                   >
                     {/* This inner div must have minHeight: 0 for the grid trick to work */}
                     <div style={{ overflow: "hidden", minHeight: 0 }}>
-                      <div className="explanation">{project.explanation}</div>
+                      <div className="explanation" dangerouslySetInnerHTML={{ __html: project.explanation }} />
                     </div>
                   </motion.div>
                 )}
