@@ -62,8 +62,8 @@ export interface Project {
   carouselImages?: string[];
   link?: string;
   mediaMaxHeight?: string;
-  // mediaCrop?: string;
-  // mediaZoom?: number;
+  mediaCrop?: string;
+  mediaZoom?: number;
   videoStart?: number;
   videoEnd?: number;
   showPdfPopup?: boolean;
