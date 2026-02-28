@@ -213,20 +213,39 @@ function ImageCarousel({
       <div ref={carouselRef} className="carousel-wrapper">
         {/* Render stacked images */}
         {images.map((imageSrc, index) => {
-          const offsetIndex = index - activeIndex;
+          let offsetIndex = index - activeIndex;
+
+          // Wrap-around math so the previous image correctly fades out
+          if (offsetIndex === images.length - 1) {
+            offsetIndex = -1;
+          } else if (offsetIndex < -1) {
+            // Wrap-around for images loading into the back of the stack
+            offsetIndex += images.length;
+          }
+
+          // THE DOM LIMITER:
+          // Only mount the fading-out layer (-1), active layer (0), and next two (1, 2).
+          // Completely destroy all other nodes to free RAM and calculation cycles.
+          if (offsetIndex < -1 || offsetIndex > 2) {
+            return null;
+          }
+
           const isVisible = offsetIndex >= 0 && offsetIndex < 3;
 
-          // Animation values for stacked depth effect
-          const scale = shouldReduceMotion ? 1 : 1 - offsetIndex * 0.05; // 5% per layer
-          const y = shouldReduceMotion ? 0 : offsetIndex * 15; // 15px per layer
-          const blur = shouldReduceMotion ? 0 : Math.max(0, offsetIndex * 1); // 1px per layer, never negative
-          const opacity = offsetIndex < 0 ? 0 : 1; // Hide previous images
-          const zIndex = 100 - offsetIndex; // Higher z-index for images closer to front
+          const scale = shouldReduceMotion ? 1 : 1 - offsetIndex * 0.05;
+          const y = shouldReduceMotion ? 0 : offsetIndex * 15;
+
+          // Force blur to 0 when invisible to instantly free GPU resources
+          const blur = shouldReduceMotion || !isVisible ? 0 : offsetIndex * 1;
+          const opacity = offsetIndex < 0 ? 0 : 1;
+          const zIndex = 100 - offsetIndex;
 
           return (
             <motion.img
               key={index}
               src={imageSrc}
+              loading="lazy" // Network optimization
+              decoding="async" // CPU optimization: decode off the main thread
               alt={`${projectDescription} - image ${index + 1} of ${images.length}`}
               className="carousel-image-layer media-block"
               style={{

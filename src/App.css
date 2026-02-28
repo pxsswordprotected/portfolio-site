@@ -125,6 +125,13 @@ html {
     opacity: 0.75;
 }
 
+.explanation {
+    color: #191919;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0 12px 12px 12px;
+}
+
 .clickable {
     cursor: pointer;
 }
@@ -219,7 +226,8 @@ html {
 }
 
 .popup-btn {
-    padding: var(--popup-btn-padding-vertical) var(--popup-btn-padding-horizontal);
+    padding: var(--popup-btn-padding-vertical)
+        var(--popup-btn-padding-horizontal);
     font-size: var(--popup-btn-font-size);
     font-family: inherit;
     border: 0.5px solid #191919;
@@ -239,7 +247,7 @@ html {
 }
 
 .popup-no {
-    background: #E74C3C;
+    background: #e74c3c;
     color: #fdfdfd;
 }
 

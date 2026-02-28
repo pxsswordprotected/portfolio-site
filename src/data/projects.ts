@@ -46,11 +46,16 @@
  * OPTIONAL MEDIA ZOOM:
  * mediaZoom: 1.5 or 2
  * (scales up the media content using CSS transform: scale())
+ *
+ * OPTIONAL EXPLANATION:
+ * explanation: 'A short 1–4 sentence explanation of the project.'
+ * (only shown when the cell is expanded, fades in below the description/date row)
  */
 
 export interface Project {
   id: number;
   description: string;
+  explanation?: string;
   date: string;
   mediaType?: "image" | "gif" | "video" | "iframe" | "carousel" | null;
   mediaUrl?: string;
@@ -74,6 +79,8 @@ export const projects: Project[] = [
     link: "https://rand-om.vercel.app/", // Optional- makes description clickable
     mediaCrop: "0px 24px",
     mediaZoom: 1.3,
+    explanation:
+      "Rand.om fetches random blocks from Are.na channels. I designed the site to match Are.na's minimal black and white styling without impeding on the user's interactions. ",
   },
   {
     id: 2,
