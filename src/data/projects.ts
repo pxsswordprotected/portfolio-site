@@ -128,18 +128,24 @@ export const projects: Project[] = [
 
   {
     id: 6,
-    description: "Project folders",
-    date: "August 2025",
-    mediaType: "image",
-    mediaUrl: "/images/project_nexus.png",
-  },
-
-  {
-    id: 7,
     description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
     mediaUrl: "/images/running_good_1.png",
     mediaMaxHeight: "80%",
+  },
+  {
+    id: 7,
+    description: "File transfer screen",
+    date: "September 2025",
+    mediaType: "image",
+    mediaUrl: "/images/smartwifitransfer-v3.webp",
+  },
+  {
+    id: 8,
+    description: "Project folders",
+    date: "August 2025",
+    mediaType: "image",
+    mediaUrl: "/images/project_nexus.png",
   },
 ];
