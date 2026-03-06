@@ -111,6 +111,13 @@ export const projects: Project[] = [
   },
   {
     id: 5,
+    description: "XP progress",
+    date: "Febuary 2026",
+    mediaType: "video",
+    mediaUrl: "/videos/xp_bar_output.mp4",
+  },
+  {
+    id: 6,
     description: "Design & Branding guidelines",
     date: "October 2025",
     mediaType: "carousel",
@@ -127,7 +134,7 @@ export const projects: Project[] = [
   },
 
   {
-    id: 6,
+    id: 7,
     description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
@@ -135,14 +142,14 @@ export const projects: Project[] = [
     mediaMaxHeight: "80%",
   },
   {
-    id: 7,
+    id: 8,
     description: "File transfer screen",
     date: "September 2025",
     mediaType: "image",
     mediaUrl: "/images/smartwifitransfer-v3.webp",
   },
   {
-    id: 8,
+    id: 9,
     description: "Project folders",
     date: "August 2025",
     mediaType: "image",
