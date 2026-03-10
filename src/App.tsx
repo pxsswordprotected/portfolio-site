@@ -283,9 +283,18 @@ function App() {
   return (
     <>
       <div className="intro-section">
-        <p className="intro-text">
-          James is a design engineer focused on the intersection of aesthetics,
-          usability, and product impact.
+        <p className="intro-text animate-enter-individual-title">
+          {"James is a design engineer focused on the intersection of aesthetics, usability, and product impact."
+            .split(" ")
+            .map((word, i) => (
+              <span
+                key={i}
+                className="animate-enter"
+                style={{ "--stagger": i } as React.CSSProperties}
+              >
+                {word}{" "}
+              </span>
+            ))}
         </p>
       </div>
       <div className="grid-container">
