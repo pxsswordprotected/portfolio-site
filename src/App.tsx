@@ -282,6 +282,12 @@ function App() {
 
   return (
     <>
+      <div className="intro-section">
+        <p className="intro-text">
+          James is a design engineer focused on the intersection of aesthetics,
+          usability, and product impact.
+        </p>
+      </div>
       <div className="grid-container">
         {projects.map((project, index) => {
           const isExpanded = expandedCell?.id === project.id;
@@ -360,7 +366,12 @@ function App() {
                   >
                     {/* This inner div must have minHeight: 0 for the grid trick to work */}
                     <div style={{ overflow: "hidden", minHeight: 0 }}>
-                      <div className="explanation" dangerouslySetInnerHTML={{ __html: project.explanation }} />
+                      <div
+                        className="explanation"
+                        dangerouslySetInnerHTML={{
+                          __html: project.explanation,
+                        }}
+                      />
                     </div>
                   </motion.div>
                 )}
