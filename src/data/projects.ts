@@ -132,9 +132,18 @@ export const projects: Project[] = [
     explanation:
       "These branding guidelines for <a href='https://x.com/chrislakin' target='_blank' rel='noopener noreferrer'>Chris Lakin</a> were built to serve his existing brand, Locally Optimal. I worked with him to understand what he needed and turned that into a visual language that helped grow the brand. I also created design templates that made it easier to produce consistent graphics for his writing.",
   },
-
   {
     id: 7,
+    description: "Copy button redesign",
+    date: "Febuary 2026",
+    mediaType: "video",
+    mediaUrl: "/videos/button_redesign.mp4",
+    link: "https://submit-redesign.vercel.app/",
+    explanation:
+      "An unsolicited redesign of the copy email interaction on Adria Studio's job posting page. I noticed the button felt flat and unresponsive, so I rebuilt it with spring animations, a blurred crossfade between states, and proper accessibility support.",
+  },
+  {
+    id: 8,
     description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
@@ -142,14 +151,14 @@ export const projects: Project[] = [
     mediaMaxHeight: "80%",
   },
   {
-    id: 8,
+    id: 9,
     description: "File transfer screen",
     date: "September 2025",
     mediaType: "image",
     mediaUrl: "/images/smartwifitransfer-v3.webp",
   },
   {
-    id: 9,
+    id: 10,
     description: "Project folders",
     date: "August 2025",
     mediaType: "image",
