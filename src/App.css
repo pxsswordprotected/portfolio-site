@@ -56,7 +56,7 @@ html {
 .intro-section .intro-text {
     letter-spacing: -0.07rem;
     margin: clamp(1rem, 18px, 2rem);
-    font-size: 96px;
+    font-size: clamp(48px, 7vw, 96px);
 }
 
 @keyframes enter {
