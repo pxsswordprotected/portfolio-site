@@ -292,7 +292,55 @@ function App() {
                 className="animate-enter"
                 style={{ "--stagger": i } as React.CSSProperties}
               >
-                {word}{" "}
+                {word === "James" ? (
+                  <a
+                    href="https://psswordprotectd.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="james-link"
+                  >
+                    {word}
+                    <svg
+                      className="james-link-icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 256 256"
+                    >
+                      <rect width="256" height="256" fill="none" />
+                      <line
+                        x1="40"
+                        y1="216"
+                        x2="216"
+                        y2="216"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="square"
+                        strokeLinejoin="round"
+                        strokeWidth="16"
+                      />
+                      <line
+                        x1="80"
+                        y1="168"
+                        x2="192"
+                        y2="56"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="square"
+                        strokeLinejoin="round"
+                        strokeWidth="16"
+                      />
+                      <polyline
+                        points="96 56 192 56 192 152"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="square"
+                        strokeLinejoin="round"
+                        strokeWidth="16"
+                      />
+                    </svg>
+                  </a>
+                ) : (
+                  word
+                )}{" "}
               </span>
             ))}
         </p>

@@ -59,6 +59,26 @@ html {
     font-size: clamp(48px, 7vw, 96px);
 }
 
+.james-link {
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    margin-right: 1.3rem;
+}
+
+.james-link:hover {
+    opacity: 0.75;
+}
+
+.james-link-icon {
+    position: absolute;
+    top: 0.07em;
+    right: -0.2em;
+    width: 0.35em;
+    height: 0.35em;
+}
+
 @keyframes enter {
     from {
         filter: blur(3px);
