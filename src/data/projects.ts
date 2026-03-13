@@ -135,7 +135,7 @@ export const projects: Project[] = [
   {
     id: 7,
     description: "Copy button redesign",
-    date: "Febuary 2026",
+    date: "February  2026",
     mediaType: "video",
     mediaUrl: "/videos/button_redesign.mp4",
     link: "https://submit-redesign.vercel.app/",
