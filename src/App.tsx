@@ -284,7 +284,7 @@ function App() {
     <>
       <div className="intro-section">
         <p className="intro-text animate-enter-individual-title">
-          {"James is a  design engineer focused on the intersection of aesthetics, usability, and craft."
+          {"James is a design engineer focused on building products at the intersection of aesthetics, usability, and craft."
             .split(" ")
             .map((word, i) => (
               <span
