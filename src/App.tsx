@@ -324,7 +324,7 @@ function App() {
                         y2="56"
                         fill="none"
                         stroke="currentColor"
-                        strokeLinecap="square"
+                        strokeLinecap="butt"
                         strokeLinejoin="round"
                         strokeWidth="16"
                       />
