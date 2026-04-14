@@ -107,7 +107,7 @@ export const projects: Project[] = [
     mediaUrl: "/videos/ADDANDDELETEHIGHLIGHT_trim_crop.mp4",
     link: "https://github.com/pxsswordprotected/Drawer",
     explanation:
-      "This is the add-to-highlights and delete-from-highlights interaction for Drawer. Two animations: the semi-realistic highlighter mark moves in from left to right and the hold to delete functioanlity deletes the highlight to zero width.",
+      "This is the add-to-highlights and delete-from-highlights interaction for Drawer. Two animations: the semi-realistic highlighter mark moves in from left to right and the hold to delete functionality deletes the highlight to zero width.",
   },
   {
     id: 5,
@@ -115,6 +115,8 @@ export const projects: Project[] = [
     date: "Febuary 2026",
     mediaType: "video",
     mediaUrl: "/videos/xp_bar_output.mp4",
+    explanation:
+      "An experimental XP bar meant for my learning platform <a href='https://github.com/pxsswordprotected/dialectic' target='_blank' rel='noopener noreferrer'>Dialectic</a>. Uses spring physics for the bar and a small blur animation for text reveal on the pill.",
   },
   {
     id: 6,
