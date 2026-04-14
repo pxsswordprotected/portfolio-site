@@ -21,6 +21,7 @@ interface VideoMediaProps {
   shouldReduceMotion: boolean | null;
   mediaStyle: React.CSSProperties;
   onClickHandler: () => void;
+  isOtherExpanded: boolean;
 }
 
 function VideoMedia({
@@ -28,6 +29,7 @@ function VideoMedia({
   shouldReduceMotion,
   mediaStyle,
   onClickHandler,
+  isOtherExpanded,
 }: VideoMediaProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -63,12 +65,12 @@ function VideoMedia({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (isVisible && !shouldReduceMotion) {
+    if (isVisible && !shouldReduceMotion && !isOtherExpanded) {
       video.play().catch(() => {});
     } else {
       video.pause();
     }
-  }, [isVisible, shouldReduceMotion]);
+  }, [isVisible, shouldReduceMotion, isOtherExpanded]);
 
   return (
     <button
@@ -172,10 +174,11 @@ function App() {
   };
 
   const renderMedia = (project: Project, index: number) => {
+    const isExpanded = expandedCell?.id === project.id;
+    const isOtherExpanded = expandedCell !== null && !isExpanded;
+
     // Handle carousel media type
     if (project.mediaType === "carousel" && project.carouselImages) {
-      const isExpanded = expandedCell?.id === project.id;
-
       const handleClick = () => {
         // Disable expansion on mobile (screens <= 768px)
         if (window.innerWidth <= 768) return;
@@ -195,6 +198,7 @@ function App() {
           images={project.carouselImages}
           projectDescription={project.description}
           isExpanded={isExpanded}
+          isOtherExpanded={isOtherExpanded}
           shouldReduceMotion={shouldReduceMotion}
           onClickHandler={handleClick}
           mediaMaxHeight={project.mediaMaxHeight}
@@ -213,9 +217,6 @@ function App() {
       if (window.innerWidth <= 768) return;
 
       if (project.mediaType !== "iframe") {
-        // Check if this cell is already expanded
-        const isExpanded = expandedCell?.id === project.id;
-
         if (isExpanded) {
           // Collapse if already expanded
           setExpandedCell(null);
@@ -259,6 +260,7 @@ function App() {
             shouldReduceMotion={shouldReduceMotion}
             mediaStyle={mediaStyle}
             onClickHandler={handleClick}
+            isOtherExpanded={isOtherExpanded}
           />
         );
       case "iframe":

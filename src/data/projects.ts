@@ -156,10 +156,20 @@ export const projects: Project[] = [
     ],
     link: "https://github.com/pxsswordprotected/dialectic",
     explanation:
-      "These branding guidelines for <a href='https://x.com/chrislakin' target='_blank' rel='noopener noreferrer'>Chris Lakin</a> were built to serve his existing brand, Locally Optimal. I worked with him to understand what he needed and turned that into a visual language that helped grow the brand. I also created design templates that made it easier to produce consistent graphics for his writing.",
+      "Dialectic is a philosophy learning platform that utilizes first principles of learning such as spaced repetition & deliberate practice to boost students' learning speed. Dialectic takes advantage of the \"Attempt, Feedback, Master, Observe\" learning loop used by <a href='https://www.mathacademy.com/how-it-works#:~:text=Math%20Academy%27s%20approach,receive%20immediate%20feedback.' target='_blank' rel='noopener noreferrer'>Math Academy</a>. Everything is designed and coded by me.",
   },
   {
     id: 9,
+    description: "Drawer",
+    date: "March 2026",
+    mediaType: "video",
+    mediaUrl: "/videos/drawer_export.mp4",
+    link: "https://github.com/pxsswordprotected/Drawer",
+    explanation:
+      "This is the export interaction for Drawer. Entering export mode gives the user freedom to choose what they want to export by providing selection boxes or choose a pre-filled option. It uses a floating island that dynamically changes shape to fit the options the user wants to see.",
+  },
+  {
+    id: 10,
     description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
@@ -167,14 +177,14 @@ export const projects: Project[] = [
     mediaMaxHeight: "80%",
   },
   {
-    id: 10,
+    id: 11,
     description: "File transfer screen",
     date: "September 2025",
     mediaType: "image",
     mediaUrl: "/images/smartwifitransfer-v3.webp",
   },
   {
-    id: 11,
+    id: 12,
     description: "Project folders",
     date: "August 2025",
     mediaType: "image",

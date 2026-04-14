@@ -6,6 +6,7 @@ interface ImageCarouselProps {
   images: string[];
   projectDescription: string;
   isExpanded: boolean;
+  isOtherExpanded: boolean;
   shouldReduceMotion: boolean | null;
   onClickHandler: () => void;
   mediaMaxHeight?: string;
@@ -17,6 +18,7 @@ function ImageCarousel({
   images,
   projectDescription,
   isExpanded,
+  isOtherExpanded,
   shouldReduceMotion,
   onClickHandler,
   mediaMaxHeight,
@@ -41,6 +43,7 @@ function ImageCarousel({
       isInView &&
       !shouldReduceMotion &&
       !isPausedByUser &&
+      !isOtherExpanded &&
       images.length > 1
     ) {
       autoRotateTimerRef.current = window.setInterval(() => {
@@ -53,7 +56,7 @@ function ImageCarousel({
         window.clearInterval(autoRotateTimerRef.current);
       }
     };
-  }, [isInView, shouldReduceMotion, isPausedByUser, images.length]);
+  }, [isInView, shouldReduceMotion, isPausedByUser, isOtherExpanded, images.length]);
 
   // Reset logic
   useEffect(() => {

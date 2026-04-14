@@ -185,13 +185,13 @@ a {
 .date {
     color: #191919;
     line-height: 1.2;
-    font-size: 14px;
+    font-size: 16px;
     opacity: 0.75;
 }
 
 .explanation {
     color: #191919;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.4;
     margin: 0 12px 12px 12px;
 }
