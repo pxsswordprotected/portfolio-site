@@ -87,7 +87,7 @@ export const projects: Project[] = [
     description: "Drawer",
     date: "December 2025",
     mediaType: "video",
-    mediaUrl: "/videos/drawer_v3_opt.mp4",
+    mediaUrl: "/videos/ezgif-75c388d6629f7431.mp4",
     link: "https://github.com/pxsswordprotected/Drawer",
     explanation:
       'Drawer is an open source browser extension for quick, delightful highlighting & notetaking. It stays out of your way by taking up a small amount of screen space, only appearing when you need it. Design and animations are inspired by Benji Taylor\'s <a href="https://benji.org/family-values" target="_blank" rel="noopener noreferrer">Family</a>.',
@@ -104,10 +104,10 @@ export const projects: Project[] = [
     description: "Drawer",
     date: "December 2025",
     mediaType: "video",
-    mediaUrl: "/videos/draweradd_v3_opt.mp4",
+    mediaUrl: "/videos/ADDANDDELETEHIGHLIGHT_trim_crop.mp4",
     link: "https://github.com/pxsswordprotected/Drawer",
     explanation:
-      "This is the add-to-highlights interaction for Drawer. Two small animations: the plus icon morphing into a checkmark on success, and the existing highlights smoothly shifting to make room for the new one.",
+      "This is the add-to-highlights and delete-from-highlights interaction for Drawer. Two animations: the semi-realistic highlighter mark moves in from left to right and the hold to delete functioanlity deletes the highlight to zero width.",
   },
   {
     id: 5,
@@ -144,6 +144,22 @@ export const projects: Project[] = [
   },
   {
     id: 8,
+    description: "Dialectic",
+    date: "January 2026",
+    mediaType: "carousel",
+    carouselImages: [
+      "/images/1_dia.webp",
+      "/images/2_dia.webp",
+      "/images/3_dia.webp",
+      "/images/4_dia.webp",
+      "/images/5_dia.webp",
+    ],
+    link: "https://github.com/pxsswordprotected/dialectic",
+    explanation:
+      "These branding guidelines for <a href='https://x.com/chrislakin' target='_blank' rel='noopener noreferrer'>Chris Lakin</a> were built to serve his existing brand, Locally Optimal. I worked with him to understand what he needed and turned that into a visual language that helped grow the brand. I also created design templates that made it easier to produce consistent graphics for his writing.",
+  },
+  {
+    id: 9,
     description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
@@ -151,14 +167,14 @@ export const projects: Project[] = [
     mediaMaxHeight: "80%",
   },
   {
-    id: 9,
+    id: 10,
     description: "File transfer screen",
     date: "September 2025",
     mediaType: "image",
     mediaUrl: "/images/smartwifitransfer-v3.webp",
   },
   {
-    id: 10,
+    id: 11,
     description: "Project folders",
     date: "August 2025",
     mediaType: "image",
