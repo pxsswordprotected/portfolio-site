@@ -156,7 +156,7 @@ export const projects: Project[] = [
       "/images/4_dia.webp",
       "/images/5_dia.webp",
     ],
-    link: "https://github.com/pxsswordprotected/dialectic",
+    link: "https://dialectic-lake.vercel.app/",
     explanation:
       "Dialectic is a philosophy learning platform that utilizes first principles of learning such as spaced repetition & deliberate practice to boost students' learning speed. Dialectic takes advantage of the \"Attempt, Feedback, Master, Observe\" learning loop used by <a href='https://www.mathacademy.com/how-it-works#:~:text=Math%20Academy%27s%20approach,receive%20immediate%20feedback.' target='_blank' rel='noopener noreferrer'>Math Academy</a>. Everything is designed and coded by me.",
   },
