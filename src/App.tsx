@@ -6,6 +6,7 @@ import {
   Transition,
   useInView,
 } from "framer-motion";
+import { Agentation } from "agentation";
 import "./App.css";
 import { projects, type Project } from "./data/projects";
 import ImageCarousel from "./components/ImageCarousel";
@@ -439,6 +440,7 @@ function App() {
           );
         })}
       </div>
+      {import.meta.env.DEV && <Agentation />}
     </>
   );
 }
