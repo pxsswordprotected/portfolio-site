@@ -369,6 +369,10 @@ function App() {
     ease: shouldReduceMotion ? "linear" : [0.16, 1, 0.3, 1],
   };
 
+  const mobileExpandTransition: Transition = shouldReduceMotion
+    ? { duration: 0.01 }
+    : { type: "spring", damping: 32, stiffness: 400 };
+
   return (
     <>
       <div className="intro-section">
@@ -447,8 +451,8 @@ function App() {
               key={project.id}
               className={`grid-item ${expandClass}`}
               style={gridPositionStyle}
-              layout
-              transition={layoutTransition}
+              layout={!isMobile}
+              transition={isMobile ? mobileExpandTransition : layoutTransition}
             >
               <div className="media-wrapper">{renderMedia(project, index)}</div>
               <div className="text-row">
@@ -518,21 +522,18 @@ function App() {
                 )}
                 <div className="date">{project.date}</div>
               </div>
-              <AnimatePresence>
+              <AnimatePresence initial={false}>
                 {isExpanded && project.explanation && (
                   <motion.div
                     key="explanation"
-                    layout
-                    initial={{ opacity: 0, gridTemplateRows: "0fr" }}
-                    animate={{ opacity: 0.75, gridTemplateRows: "1fr" }}
-                    exit={{ opacity: 0, gridTemplateRows: "0fr" }}
-                    transition={layoutTransition}
-                    style={{ display: "grid" }} // Required for the 1fr trick
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 0.75 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={mobileExpandTransition}
+                    style={{ overflow: "hidden" }}
                   >
-                    {/* This inner div must have minHeight: 0 for the grid trick to work */}
                     <div
                       className="explanation-wrapper"
-                      style={{ overflow: "hidden", minHeight: 0 }}
                       onClick={(e) => {
                         if (!isMobile) return;
                         if (
