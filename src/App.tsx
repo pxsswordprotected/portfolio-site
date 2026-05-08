@@ -384,6 +384,10 @@ function App() {
                 key={i}
                 className="animate-enter"
                 style={{ "--stagger": i } as React.CSSProperties}
+                onAnimationEnd={(e) => {
+                  e.currentTarget.classList.remove("animate-enter");
+                  e.currentTarget.classList.add("animate-enter-done");
+                }}
               >
                 {word === "James" ? (
                   <a
