@@ -148,12 +148,17 @@ html {
 
 .text-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: baseline;
-    margin: 0 12px 12px 12px;
+    align-self: flex-start;
+    gap: 8px;
     flex-shrink: 0;
     position: relative;
+    background: #000;
+    color: #fdfdfd;
+    margin: 0 12px 12px 12px;
 }
+
 
 a {
     color: #191919;
@@ -166,7 +171,7 @@ a {
 }
 
 .description {
-    color: #191919;
+    color: #fdfdfd;
     line-height: 1.2;
     font-size: 16px;
 }
@@ -183,17 +188,27 @@ a {
 }
 
 .date {
-    color: #191919;
+    color: #fdfdfd;
     line-height: 1.2;
     font-size: 16px;
     opacity: 0.75;
 }
 
+.explanation-wrapper {
+    margin: 0 12px 12px 12px;
+}
+
 .explanation {
-    color: #191919;
+    display: inline-block;
+    background: #000;
+    color: #fdfdfd;
     font-size: 16px;
     line-height: 1.4;
-    margin: 0 12px 12px 12px;
+}
+
+.explanation a {
+    color: inherit;
+    text-decoration: underline;
 }
 
 .clickable {
@@ -227,6 +242,47 @@ a {
 .description a:focus-visible {
     outline: 2px solid #191919;
     outline-offset: 2px;
+}
+
+/* In-row Pause control + divider for video/gif */
+.text-row-divider {
+    display: none;
+    width: 1px;
+    height: 12px;
+    background: #fdfdfd;
+    opacity: 0.3;
+    align-self: center;
+}
+
+.pause-btn {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #fdfdfd;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.grid-item.expanded .text-row-divider {
+    display: inline-block;
+}
+
+.grid-item.expanded .pause-btn {
+    display: inline-block;
+}
+
+@media (max-width: 1048px) {
+    .text-row-divider {
+        display: inline-block;
+    }
+    .pause-btn {
+        display: inline-block;
+    }
 }
 
 /* Expanded Grid Cell */

@@ -23,6 +23,7 @@ interface VideoMediaProps {
   mediaStyle: React.CSSProperties;
   onClickHandler: () => void;
   isOtherExpanded: boolean;
+  paused: boolean;
 }
 
 function VideoMedia({
@@ -31,6 +32,7 @@ function VideoMedia({
   mediaStyle,
   onClickHandler,
   isOtherExpanded,
+  paused,
 }: VideoMediaProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -66,12 +68,12 @@ function VideoMedia({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (isVisible && !shouldReduceMotion && !isOtherExpanded) {
+    if (isVisible && !shouldReduceMotion && !isOtherExpanded && !paused) {
       video.play().catch(() => {});
     } else {
       video.pause();
     }
-  }, [isVisible, shouldReduceMotion, isOtherExpanded]);
+  }, [isVisible, shouldReduceMotion, isOtherExpanded, paused]);
 
   return (
     <button
@@ -112,10 +114,89 @@ function VideoMedia({
   );
 }
 
+interface GifMediaProps {
+  project: Project;
+  mediaStyle: React.CSSProperties;
+  onClickHandler: () => void;
+  paused: boolean;
+}
+
+function GifMedia({ project, mediaStyle, onClickHandler, paused }: GifMediaProps) {
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const [snapshot, setSnapshot] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!paused) {
+      setSnapshot(null);
+      return;
+    }
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      try {
+        const c = document.createElement("canvas");
+        c.width = img.naturalWidth;
+        c.height = img.naturalHeight;
+        c.getContext("2d")?.drawImage(img, 0, 0);
+        setSnapshot(c.toDataURL());
+      } catch {
+        // tainted canvas (cross-origin) — fall through; live img stays visible
+      }
+    }
+  }, [paused]);
+
+  return (
+    <button
+      type="button"
+      className="media-button"
+      onClick={onClickHandler}
+      aria-label={`Expand ${project.description}`}
+    >
+      <img
+        ref={imgRef}
+        src={project.mediaUrl}
+        alt={project.description}
+        className="media-block"
+        style={{
+          ...mediaStyle,
+          ...(paused && snapshot ? { display: "none" } : null),
+        }}
+      />
+      {paused && snapshot && (
+        <img
+          src={snapshot}
+          alt={project.description}
+          className="media-block"
+          style={mediaStyle}
+        />
+      )}
+    </button>
+  );
+}
+
 function App() {
   const [expandedCell, setExpandedCell] = useState<ExpandedCell | null>(null);
   const [showPdfPopup, setShowPdfPopup] = useState(false);
+  const [pausedIds, setPausedIds] = useState<Set<number>>(new Set());
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 1048px)").matches
+  );
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1048px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const togglePaused = (id: number) =>
+    setPausedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
   // ESC key to collapse expanded cell
   useEffect(() => {
@@ -150,7 +231,7 @@ function App() {
   };
 
   const getGridPositionStyle = (index: number, isExpanded: boolean) => {
-    if (!isExpanded) return {};
+    if (!isExpanded || isMobile) return {};
 
     const col = index % 3; // 0, 1, or 2
     const row = Math.floor(index / 3) + 1; // 1-indexed for CSS Grid
@@ -181,9 +262,6 @@ function App() {
     // Handle carousel media type
     if (project.mediaType === "carousel" && project.carouselImages) {
       const handleClick = () => {
-        // Disable expansion on mobile (screens <= 768px)
-        if (window.innerWidth <= 768) return;
-
         if (isExpanded) {
           // Collapse if already expanded
           setExpandedCell(null);
@@ -214,9 +292,6 @@ function App() {
     }
 
     const handleClick = () => {
-      // Disable expansion on mobile (screens <= 768px)
-      if (window.innerWidth <= 768) return;
-
       if (project.mediaType !== "iframe") {
         if (isExpanded) {
           // Collapse if already expanded
@@ -238,7 +313,6 @@ function App() {
 
     switch (project.mediaType) {
       case "image":
-      case "gif":
         return (
           <button
             type="button"
@@ -254,6 +328,15 @@ function App() {
             />
           </button>
         );
+      case "gif":
+        return (
+          <GifMedia
+            project={project}
+            mediaStyle={mediaStyle}
+            onClickHandler={handleClick}
+            paused={pausedIds.has(project.id)}
+          />
+        );
       case "video":
         return (
           <VideoMedia
@@ -262,6 +345,7 @@ function App() {
             mediaStyle={mediaStyle}
             onClickHandler={handleClick}
             isOtherExpanded={isOtherExpanded}
+            paused={pausedIds.has(project.id)}
           />
         );
       case "iframe":
@@ -411,6 +495,25 @@ function App() {
                     project.description
                   )}
                 </div>
+                {(project.mediaType === "video" ||
+                  project.mediaType === "gif") && (
+                  <>
+                    <span
+                      className="text-row-divider"
+                      aria-hidden="true"
+                    />
+                    <button
+                      type="button"
+                      className={`pause-btn${pausedIds.has(project.id) ? " paused" : ""}`}
+                      onClick={() => togglePaused(project.id)}
+                      aria-label={
+                        pausedIds.has(project.id) ? "Resume" : "Pause"
+                      }
+                    >
+                      {pausedIds.has(project.id) ? "Paused" : "Pause"}
+                    </button>
+                  </>
+                )}
                 <div className="date">{project.date}</div>
               </div>
               <AnimatePresence>
@@ -425,7 +528,18 @@ function App() {
                     style={{ display: "grid" }} // Required for the 1fr trick
                   >
                     {/* This inner div must have minHeight: 0 for the grid trick to work */}
-                    <div style={{ overflow: "hidden", minHeight: 0 }}>
+                    <div
+                      className="explanation-wrapper"
+                      style={{ overflow: "hidden", minHeight: 0 }}
+                      onClick={(e) => {
+                        if (!isMobile) return;
+                        if (
+                          (e.target as HTMLElement).closest("a")
+                        )
+                          return;
+                        setExpandedCell(null);
+                      }}
+                    >
                       <div
                         className="explanation"
                         dangerouslySetInnerHTML={{
