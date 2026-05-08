@@ -262,6 +262,7 @@ function App() {
     // Handle carousel media type
     if (project.mediaType === "carousel" && project.carouselImages) {
       const handleClick = () => {
+        if (isMobile && !project.explanation) return;
         if (isExpanded) {
           // Collapse if already expanded
           setExpandedCell(null);
@@ -292,6 +293,7 @@ function App() {
     }
 
     const handleClick = () => {
+      if (isMobile && !project.explanation) return;
       if (project.mediaType !== "iframe") {
         if (isExpanded) {
           // Collapse if already expanded
