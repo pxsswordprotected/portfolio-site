@@ -210,12 +210,9 @@ a {
 }
 
 .explanation {
-    display: inline-block;
-    background: #000;
-    color: #fdfdfd;
+    color: #191919;
     font-size: 16px;
     line-height: 1.4;
-    padding: 2px;
 }
 
 .explanation a {

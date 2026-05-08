@@ -530,14 +530,15 @@ function App() {
                 {isExpanded && project.explanation && (
                   <motion.div
                     key="explanation"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 0.75 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={mobileExpandTransition}
-                    style={{ overflow: "hidden" }}
+                    initial={{ opacity: 0, gridTemplateRows: "0fr" }}
+                    animate={{ opacity: 0.75, gridTemplateRows: "1fr" }}
+                    exit={{ opacity: 0, gridTemplateRows: "0fr" }}
+                    transition={isMobile ? mobileExpandTransition : layoutTransition}
+                    style={{ display: "grid" }}
                   >
                     <div
                       className="explanation-wrapper"
+                      style={{ overflow: "hidden", minHeight: 0 }}
                       onClick={(e) => {
                         if (!isMobile) return;
                         if (
