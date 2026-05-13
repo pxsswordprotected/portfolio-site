@@ -526,7 +526,7 @@ function App() {
                 )}
                 <div className="date">{project.date}</div>
               </div>
-              <AnimatePresence initial={false}>
+              <AnimatePresence initial={false} mode="popLayout">
                 {isExpanded && project.explanation && (
                   <motion.div
                     key="explanation"
