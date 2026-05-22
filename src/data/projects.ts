@@ -72,6 +72,16 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 1,
+    description: "Aresearch (in development)",
+    date: "May 2026",
+    mediaType: "video",
+    mediaUrl: "/videos/aresearch_video_one.mp4",
+    link: "https://github.com/pxsswordprotected/aresearch",
+    explanation:
+      "Aresearch is an experimental research tool I’m designing and developing for turning an Are.na profile into a searchable, AI-assisted knowledge base. It indexes channels, blocks, images, links, and PDFs so you can semantically search your archive and ask where new ideas best fit. It combines OCR, webpage/PDF extraction, chunking, vector embeddings, and reranking to make personal research archives feel fast, searchable, and connected.",
+  },
+  {
+    id: 2,
     description: "Rand.om",
     date: "December 2025",
     mediaType: "video",
