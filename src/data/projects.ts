@@ -74,7 +74,7 @@ export const projects: Project[] = [
     id: 1,
     description: "Aresearch (in development)",
     date: "May 2026",
-    mediaType: "video",
+    mediaType: "image",
     mediaUrl: "/images/aresearch_searchview.png",
     link: "https://github.com/pxsswordprotected/aresearch",
     explanation:
