@@ -71,17 +71,38 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 1,
-    description: "Aresearch (in development)",
+    id: 14,
+    description: "Internal, then External",
+    date: "June 2026 – Ongoing",
+    mediaType: "carousel",
+    carouselImages: [
+      "/images/internalexternal1.webp",
+      "/images/internalexternal2.webp",
+      "/images/internalexternal3.webp",
+    ],
+    link: "https://internalthenexternal.com",
+    explanation:
+      "This website holds a living book I start in June of 2026 that explores human perception, knowledge, and phenomenology. I built the site as a means to present the book in a legible and beautiful manner as a way to express my love for design. The site is built in Next.js and React, using scroll-aware nav, inline MDX editing, and inline glossary typing. The contents of the book change as my own ontology does.",
+  },
+  {
+    id: 13,
+    description: "Semblocks",
     date: "May 2026",
-    mediaType: "image",
+    mediaType: "carousel",
+    carouselImages: [
+      "/images/1_dia.webp",
+      "/images/2_dia.webp",
+      "/images/3_dia.webp",
+      "/images/4_dia.webp",
+      "/images/5_dia.webp",
+    ],
     mediaUrl: "/images/aresearch_searchview.png",
     link: "https://github.com/pxsswordprotected/aresearch",
     explanation:
       "Aresearch is an experimental research tool I’m designing and developing for turning an Are.na profile into a searchable, AI-assisted knowledge base. It indexes channels, blocks, images, links, and PDFs so you can semantically search your archive and ask where new ideas best fit. It combines OCR, webpage/PDF extraction, chunking, vector embeddings, and reranking to make personal research archives feel fast, searchable, and connected.",
   },
   {
-    id: 2,
+    id: 12,
     description: "Rand.om",
     date: "December 2025",
     mediaType: "video",
@@ -93,7 +114,7 @@ export const projects: Project[] = [
       "Rand.om fetches random blocks from Are.na channels. I built this site as a way to remind oneself of what once was. It is designed to match Are.na's minimal black and white styling without impeding the user's interactions. Animations and styling contain small gestures users find helpful and delightful.",
   },
   {
-    id: 2,
+    id: 11,
     description: "Drawer",
     date: "December 2025",
     mediaType: "video",
@@ -103,14 +124,14 @@ export const projects: Project[] = [
       'Drawer is an open source browser extension for quick, delightful highlighting & notetaking. It stays out of your way by taking up a small amount of screen space, only appearing when you need it. Design and animations are inspired by Benji Taylor\'s <a href="https://benji.org/family-values" target="_blank" rel="noopener noreferrer">Family</a>.',
   },
   {
-    id: 3,
+    id: 10,
     description: "Export options menu",
     date: "December 2025",
     mediaType: "video",
     mediaUrl: "/videos/export-options-menu-67.mp4",
   },
   {
-    id: 4,
+    id: 9,
     description: "Drawer",
     date: "December 2025",
     mediaType: "video",
@@ -120,7 +141,7 @@ export const projects: Project[] = [
       "This is the add-to-highlights and delete-from-highlights interaction for Drawer. Two animations: the semi-realistic highlighter mark moves in from left to right and the hold to delete functionality deletes the highlight to zero width.",
   },
   {
-    id: 5,
+    id: 8,
     description: "XP progress",
     date: "Febuary 2026",
     mediaType: "video",
@@ -129,7 +150,7 @@ export const projects: Project[] = [
       "An experimental XP bar meant for my learning platform <a href='https://github.com/pxsswordprotected/dialectic' target='_blank' rel='noopener noreferrer'>Dialectic</a>. Uses spring physics for the bar and a small blur animation for text reveal on the pill.",
   },
   {
-    id: 6,
+    id: 7,
     description: "Design & Branding guidelines",
     date: "October 2025",
     mediaType: "carousel",
@@ -145,7 +166,7 @@ export const projects: Project[] = [
       "These branding guidelines for <a href='https://x.com/chrislakin' target='_blank' rel='noopener noreferrer'>Chris Lakin</a> were built to serve his existing brand, Locally Optimal. I worked with him to understand what he needed and turned that into a visual language that helped grow the brand. I also created design templates that made it easier to produce consistent graphics for his writing.",
   },
   {
-    id: 7,
+    id: 6,
     description: "Copy button redesign",
     date: "February  2026",
     mediaType: "video",
@@ -155,7 +176,7 @@ export const projects: Project[] = [
       "An unsolicited redesign of the copy email interaction on Adria Studio's job posting page. I noticed the button felt flat and unresponsive, so I rebuilt it with spring animations, a blurred crossfade between states, and proper accessibility support.",
   },
   {
-    id: 8,
+    id: 5,
     description: "Dialectic",
     date: "January 2026",
     mediaType: "carousel",
@@ -171,7 +192,7 @@ export const projects: Project[] = [
       "Dialectic is a philosophy learning platform that utilizes first principles of learning such as spaced repetition & deliberate practice to boost students' learning speed. Dialectic takes advantage of the \"Attempt, Feedback, Master, Observe\" learning loop used by <a href='https://www.mathacademy.com/how-it-works#:~:text=Math%20Academy%27s%20approach,receive%20immediate%20feedback.' target='_blank' rel='noopener noreferrer'>Math Academy</a>. Everything is designed and coded by me.",
   },
   {
-    id: 9,
+    id: 4,
     description: "Drawer",
     date: "March 2026",
     mediaType: "video",
@@ -181,7 +202,7 @@ export const projects: Project[] = [
       "This is the export interaction for Drawer. Entering export mode gives the user freedom to choose what they want to export by providing selection boxes or choose a pre-filled option. It uses a floating island that dynamically changes shape to fit the options the user wants to see.",
   },
   {
-    id: 10,
+    id: 3,
     description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
@@ -189,14 +210,14 @@ export const projects: Project[] = [
     mediaMaxHeight: "80%",
   },
   {
-    id: 11,
+    id: 2,
     description: "File transfer screen",
     date: "September 2025",
     mediaType: "image",
     mediaUrl: "/images/smartwifitransfer-v3.webp",
   },
   {
-    id: 12,
+    id: 1,
     description: "Project folders",
     date: "August 2025",
     mediaType: "image",

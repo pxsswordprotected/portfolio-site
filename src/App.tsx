@@ -11,6 +11,9 @@ import "./App.css";
 import { projects, type Project } from "./data/projects";
 import ImageCarousel from "./components/ImageCarousel";
 
+// Highest id displays first
+const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
+
 // TypeScript Interfaces
 interface ExpandedCell {
   id: number;
@@ -443,7 +446,7 @@ function App() {
         </p>
       </div>
       <div className="grid-container">
-        {projects.map((project, index) => {
+        {sortedProjects.map((project, index) => {
           const isExpanded = expandedCell?.id === project.id;
           const expandClass = isExpanded
             ? `expanded expand-${expandedCell.direction}`
