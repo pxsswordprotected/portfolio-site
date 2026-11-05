@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import "./ImageCarousel.css";
 
 interface ImageCarouselProps {
@@ -12,6 +12,7 @@ interface ImageCarouselProps {
   mediaMaxHeight?: string;
   mediaCrop?: string;
   mediaZoom?: number;
+  isAboveFold: boolean;
 }
 
 function ImageCarousel({
@@ -24,6 +25,7 @@ function ImageCarousel({
   mediaMaxHeight,
   mediaCrop,
   mediaZoom,
+  isAboveFold,
 }: ImageCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
@@ -174,10 +176,11 @@ function ImageCarousel({
           const zIndex = 100 - offsetIndex;
 
           return (
-            <motion.img
+            <m.img
               key={index}
               src={imageSrc}
-              loading="lazy"
+              loading={isAboveFold ? "eager" : "lazy"}
+              fetchPriority={isAboveFold && index === 0 ? "high" : undefined}
               decoding="async" // Off-thread decoding
               alt={`${projectDescription} image ${index + 1}`}
               className="carousel-image-layer media-block"

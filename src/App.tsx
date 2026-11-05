@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import {
-  motion,
+  m,
+  LazyMotion,
   AnimatePresence,
   useReducedMotion,
   Transition,
@@ -13,6 +14,9 @@ import ImageCarousel from "./components/ImageCarousel";
 
 // Highest id displays first
 const sortedProjects = [...projects].sort((a, b) => b.id - a.id);
+
+const loadMotionFeatures = () =>
+  import("./motionFeatures").then((mod) => mod.default);
 
 // TypeScript Interfaces
 interface ExpandedCell {
@@ -107,6 +111,7 @@ function VideoMedia({
             loop
             muted
             playsInline
+            poster={project.posterUrl}
             style={{ width: "100%", height: "100%", objectFit: "contain" }}
           >
             <source src={project.mediaUrl} type="video/mp4" />
@@ -261,6 +266,8 @@ function App() {
   const renderMedia = (project: Project, index: number) => {
     const isExpanded = expandedCell?.id === project.id;
     const isOtherExpanded = expandedCell !== null && !isExpanded;
+    // First row is in the viewport on load: fetch it eagerly
+    const isAboveFold = index < (isMobile ? 1 : 3);
 
     // Handle carousel media type
     if (project.mediaType === "carousel" && project.carouselImages) {
@@ -287,6 +294,7 @@ function App() {
           mediaMaxHeight={project.mediaMaxHeight}
           mediaCrop={project.mediaCrop}
           mediaZoom={project.mediaZoom}
+          isAboveFold={isAboveFold}
         />
       );
     }
@@ -330,6 +338,9 @@ function App() {
               alt={project.description}
               className={className}
               style={mediaStyle}
+              loading={isAboveFold ? "eager" : "lazy"}
+              fetchPriority={isAboveFold ? "high" : undefined}
+              decoding="async"
             />
           </button>
         );
@@ -377,7 +388,7 @@ function App() {
     : { type: "spring", damping: 32, stiffness: 400 };
 
   return (
-    <>
+    <LazyMotion features={loadMotionFeatures} strict>
       <div className="intro-section">
         <p className="intro-text animate-enter-individual-title">
           {"James is a design engineer focused on building products at the intersection of aesthetics, usability, and craft."
@@ -454,7 +465,7 @@ function App() {
           const gridPositionStyle = getGridPositionStyle(index, isExpanded);
 
           return (
-            <motion.div
+            <m.div
               key={project.id}
               className={`grid-item ${expandClass}`}
               style={gridPositionStyle}
@@ -531,7 +542,7 @@ function App() {
               </div>
               <AnimatePresence initial={false} mode="popLayout">
                 {isExpanded && project.explanation && (
-                  <motion.div
+                  <m.div
                     key="explanation"
                     initial={{ opacity: 0, gridTemplateRows: "0fr" }}
                     animate={{ opacity: 0.75, gridTemplateRows: "1fr" }}
@@ -558,15 +569,15 @@ function App() {
                         }}
                       />
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </m.div>
           );
         })}
       </div>
       {import.meta.env.DEV && <Agentation />}
-    </>
+    </LazyMotion>
   );
 }
 

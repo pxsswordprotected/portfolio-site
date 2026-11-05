@@ -15,6 +15,9 @@
  * (will autoplay, loop, and be muted)
  * videoStart: 5.0 (optional - start time in seconds)
  * videoEnd: 15.0 (optional - end time in seconds, will loop back to start)
+ * posterUrl: '/videos/posters/demo.webp' (optional - first frame shown before playback
+ *   and when reduced motion keeps the video paused)
+ * Run scripts/optimize-media.sh on new videos and images before adding them here.
  *
  * IFRAME (for live site demos):
  * mediaType: 'iframe'
@@ -66,6 +69,7 @@ export interface Project {
   mediaZoom?: number;
   videoStart?: number;
   videoEnd?: number;
+  posterUrl?: string;
   showPdfPopup?: boolean;
 }
 
@@ -88,15 +92,9 @@ export const projects: Project[] = [
     id: 13,
     description: "Semblocks",
     date: "May 2026",
-    mediaType: "carousel",
-    carouselImages: [
-      "/images/1_dia.webp",
-      "/images/2_dia.webp",
-      "/images/3_dia.webp",
-      "/images/4_dia.webp",
-      "/images/5_dia.webp",
-    ],
-    mediaUrl: "/images/aresearch_searchview.png",
+    mediaType: "video",
+    mediaUrl: "/videos/semblocksvideo.mp4",
+    posterUrl: "/videos/posters/semblocksvideo.webp",
     link: "https://github.com/pxsswordprotected/aresearch",
     explanation:
       "Aresearch is an experimental research tool I’m designing and developing for turning an Are.na profile into a searchable, AI-assisted knowledge base. It indexes channels, blocks, images, links, and PDFs so you can semantically search your archive and ask where new ideas best fit. It combines OCR, webpage/PDF extraction, chunking, vector embeddings, and reranking to make personal research archives feel fast, searchable, and connected.",
@@ -107,6 +105,7 @@ export const projects: Project[] = [
     date: "December 2025",
     mediaType: "video",
     mediaUrl: "/videos/randomvid_v3_opt.mp4",
+    posterUrl: "/videos/posters/randomvid_v3_opt.webp",
     link: "https://rand-om.vercel.app/", // Optional- makes description clickable
     mediaCrop: "0px 24px",
     mediaZoom: 1.3,
@@ -119,6 +118,7 @@ export const projects: Project[] = [
     date: "December 2025",
     mediaType: "video",
     mediaUrl: "/videos/ezgif-75c388d6629f7431.mp4",
+    posterUrl: "/videos/posters/ezgif-75c388d6629f7431.webp",
     link: "https://github.com/pxsswordprotected/Drawer",
     explanation:
       'Drawer is an open source browser extension for quick, delightful highlighting & notetaking. It stays out of your way by taking up a small amount of screen space, only appearing when you need it. Design and animations are inspired by Benji Taylor\'s <a href="https://benji.org/family-values" target="_blank" rel="noopener noreferrer">Family</a>.',
@@ -129,6 +129,7 @@ export const projects: Project[] = [
     date: "December 2025",
     mediaType: "video",
     mediaUrl: "/videos/export-options-menu-67.mp4",
+    posterUrl: "/videos/posters/export-options-menu-67.webp",
   },
   {
     id: 9,
@@ -136,6 +137,7 @@ export const projects: Project[] = [
     date: "December 2025",
     mediaType: "video",
     mediaUrl: "/videos/ADDANDDELETEHIGHLIGHT_trim_crop.mp4",
+    posterUrl: "/videos/posters/ADDANDDELETEHIGHLIGHT_trim_crop.webp",
     link: "https://github.com/pxsswordprotected/Drawer",
     explanation:
       "This is the add-to-highlights and delete-from-highlights interaction for Drawer. Two animations: the semi-realistic highlighter mark moves in from left to right and the hold to delete functionality deletes the highlight to zero width.",
@@ -146,6 +148,7 @@ export const projects: Project[] = [
     date: "Febuary 2026",
     mediaType: "video",
     mediaUrl: "/videos/xp_bar_output.mp4",
+    posterUrl: "/videos/posters/xp_bar_output.webp",
     explanation:
       "An experimental XP bar meant for my learning platform <a href='https://github.com/pxsswordprotected/dialectic' target='_blank' rel='noopener noreferrer'>Dialectic</a>. Uses spring physics for the bar and a small blur animation for text reveal on the pill.",
   },
@@ -171,6 +174,7 @@ export const projects: Project[] = [
     date: "February  2026",
     mediaType: "video",
     mediaUrl: "/videos/button_redesign.mp4",
+    posterUrl: "/videos/posters/button_redesign.webp",
     link: "https://submit-redesign.vercel.app/",
     explanation:
       "An unsolicited redesign of the copy email interaction on Adria Studio's job posting page. I noticed the button felt flat and unresponsive, so I rebuilt it with spring animations, a blurred crossfade between states, and proper accessibility support.",
@@ -197,6 +201,7 @@ export const projects: Project[] = [
     date: "March 2026",
     mediaType: "video",
     mediaUrl: "/videos/drawer_export.mp4",
+    posterUrl: "/videos/posters/drawer_export.webp",
     link: "https://github.com/pxsswordprotected/Drawer",
     explanation:
       "This is the export interaction for Drawer. Entering export mode gives the user freedom to choose what they want to export by providing selection boxes or choose a pre-filled option. It uses a floating island that dynamically changes shape to fit the options the user wants to see.",
@@ -206,7 +211,7 @@ export const projects: Project[] = [
     description: "Workflow progress",
     date: "October 2025",
     mediaType: "image",
-    mediaUrl: "/images/running_good_1.png",
+    mediaUrl: "/images/running_good_1.webp",
     mediaMaxHeight: "80%",
   },
   {
@@ -221,6 +226,6 @@ export const projects: Project[] = [
     description: "Project folders",
     date: "August 2025",
     mediaType: "image",
-    mediaUrl: "/images/project_nexus.png",
+    mediaUrl: "/images/project_nexus.webp",
   },
 ];
